@@ -2,8 +2,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using static ChessPieceBase;
-using static MoveHistory;
+using static GameHistoryManager;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 public class InputHandler : MonoBehaviour
 {
@@ -20,6 +21,13 @@ public class InputHandler : MonoBehaviour
     private Vector2Int promotionOrigin;
     private bool promotionCaptured;
 
+    private SceneManager.Scenes currentScene;
+
+    private float targetCameraSpeed = 0;
+    private float currentCameraSpeed = 0;
+    private float velocity = 0f;
+    private float smoothTime = 2f;
+
     private void ClearValues()
     {
         selectedPiece = null;
@@ -33,7 +41,7 @@ public class InputHandler : MonoBehaviour
     {
         ClearValues();
 
-        
+
 
         //EN PASSANT
         if (EnPassantIsPossibleOnColor != GameStateManager.Instance.CurrentTurn)
@@ -50,7 +58,6 @@ public class InputHandler : MonoBehaviour
             Vector2Int forwardTwo = from + new Vector2Int(0, 2 * direction);
             if (forwardTwo == to)
             {
-                Debug.Log("Pawn has moved two forward!!!");
                 //Pawn has moved two forward
                 var logicBoardState = Logic.GetLogicBoardState(BoardManager.Instance.BoardState);
                 //Clear old value, set new value, start counter for turn
@@ -84,7 +91,7 @@ public class InputHandler : MonoBehaviour
         float time = GameStateManager.Instance.GetTime();
 
         //Logging move
-        MoveHistory.Instance.LogMove(from, to, pieceAtPositionTo.Type, pieceAtPositionTo.Color, SpecialMove.None, PieceType.None, time, hasCaptured);
+        GameHistoryManager.Instance.LogMove(from, to, pieceAtPositionTo.Type, pieceAtPositionTo.Color, SpecialMove.None, PieceType.None, time, hasCaptured);
     }
 
     private void ClickedOnCastleMove(Vector2Int from, Vector2Int to)
@@ -129,181 +136,251 @@ public class InputHandler : MonoBehaviour
         Instance.LogMove(from, to, pieceAtPositionTo.Type, pieceAtPositionTo.Color, SpecialMove.EnPassant, PieceType.None, time, true);
     }
 
-    void Start()
+    private void Start()
     {
         mainCamera = Camera.main;
+
+        //Check for scene
+        Scene scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+        currentScene = SceneManager.Instance.GetScene(scene.name);
     }
 
-    void Update()
+    //Update functions for "Chess2d"
+    private void HandleClickChess2d(Collider2D hit)
     {
-        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        if (GameStateManager.Instance.GameState == GameStateManager.State.Playing)
+        {
+            if (hit)
+            {
+                //Get hit GameObject
+                ChessPieceBase piece = hit.gameObject.GetComponentInParent<ChessPieceBase>();
+                Tile tile = hit.gameObject.GetComponentInParent<Tile>();
+
+                //Clears highlights if clicked piece is not a legal move
+                if (piece != null)
+                {
+                    Vector2Int boardPosition = piece.BoardPosition;
+
+                    bool isLegalMove = legalMoves != null && legalMoves.Contains(boardPosition);
+
+                    if (!isLegalMove)
+                    {
+                        ClearValues();
+                    }
+                    else
+                    {
+                        //Selected piece is a legal move
+                        ClickedOnLegalMove(selectedPiece.BoardPosition, boardPosition);
+                        return;
+                    }
+                }
+
+                //Clicked a tile
+                if (tile != null)
+                {
+                    Vector2Int boardPosition = tile.BoardPosition;
+
+                    Debug.Log($"Clicked on a tile: {boardPosition}");
+
+                    //Check if clicked tile is a legal move
+                    bool isTileLegalMove = legalMoves != null ? legalMoves.Contains(boardPosition) : false;
+                    bool isTileCastlingMove = castleMoves != null ? castleMoves.Contains(boardPosition) : false;
+                    bool isTileEnPassantMove = enPassantMove != null ? enPassantMove.Contains(boardPosition) : false;
+
+                    //First check for special moves: 
+
+                    //Check for castling
+                    if (isTileCastlingMove && selectedPiece != null && selectedPiece.Type == ChessPieceBase.PieceType.King)
+                    {
+                        //Clicked tile is a castling move
+                        ClickedOnCastleMove(selectedPiece.BoardPosition, boardPosition);
+                        return;
+                    }
+
+                    //Check for En Passant
+                    if (isTileEnPassantMove && selectedPiece != null && selectedPiece.Type == ChessPieceBase.PieceType.Pawn)
+                    {
+                        ClickedOnEnPassantMove(selectedPiece.BoardPosition, boardPosition);
+                        return;
+                    }
+
+                    //if it is not a legal move clear all highlights
+                    if (!isTileLegalMove)
+                    {
+                        ClearValues();
+                    }
+                    else
+                    {
+                        //Clicked tile is a legal move
+                        ClickedOnLegalMove(selectedPiece.BoardPosition, boardPosition);
+                        return;
+                    }
+                }
+                //Clicked a valid piece
+                if (piece != null && GameStateManager.Instance.CurrentTurn == piece.Color)
+                {
+                    //Places Select Highlight and clears old Highlights
+                    UImanager.ClearAll();
+                    UImanager.PlaceSelect(piece.BoardPosition);
+
+                    //Select logic
+                    selectedPiece = piece;
+
+                    //Get legal moves
+                    legalMoves = piece.GetLegalMoves(BoardManager.Instance.BoardState);
+
+                    var logicBoardState = Logic.GetLogicBoardState(BoardManager.Instance.BoardState);
+
+                    //Filter legal moves
+                    legalMoves = MoveValidator.Instance.RemoveUnsafeMoves(logicBoardState, legalMoves, piece.BoardPosition);
+
+                    //Get castleMoves if king
+                    if (piece.Type == PieceType.King)
+                        castleMoves = MoveValidator.Instance.GetCastleMoves(logicBoardState, piece.Color);
+
+                    //Get enPassantMove if pawn
+                    if (piece.Type == PieceType.Pawn)
+                        enPassantMove = MoveValidator.Instance.GetEnPassantMove(logicBoardState, piece.Color, piece.BoardPosition);
+
+                    //Place legal moves highlight
+                    UImanager.PlaceLegalMoves(legalMoves);
+                    UImanager.PlaceSpecialMoves(castleMoves);
+                    UImanager.PlaceSpecialMoves(enPassantMove);
+                }
+            }
+            else
+            {
+                //Clicked outside the board
+
+                ClearValues();
+            }
+        }
+        if (GameStateManager.Instance.GameState == GameStateManager.State.Promoting)
+        {
+            if (hit)
+            {
+                var obj = hit.GameObject();
+
+
+                PieceType chosenType = PieceType.None;
+
+                switch (obj.name)
+                {
+                    case "QueenOption":
+                        chosenType = PieceType.Queen;
+                        break;
+                    case "RookOption":
+                        chosenType = PieceType.Rook;
+                        break;
+                    case "BishopOption":
+                        chosenType = PieceType.Bishop;
+                        break;
+                    case "KnightOption":
+                        chosenType = PieceType.Knight;
+                        break;
+                }
+
+                Debug.Log($"Promoted to: {chosenType}");
+
+                if (chosenType == PieceType.None)
+                    return;
+
+                int x = promotionData.BoardPosition.x;
+                int y = promotionData.BoardPosition.y;
+
+                PromotionManager.Instance.HasPromotedTo(x, y, chosenType, promotionData.Color);
+
+                GameStateManager.Instance.GameState = GameStateManager.State.Playing;
+                GameStateManager.Instance.SwitchTurn();
+
+                //Logging move
+                float time = GameStateManager.Instance.GetTime();
+                Instance.LogMove(promotionOrigin, promotionData.BoardPosition, PieceType.Pawn, promotionData.Color, SpecialMove.Promotion, chosenType, time, promotionCaptured);
+            }
+        }
+        if (GameStateManager.Instance.GameState == GameStateManager.State.GameEnd)
+        {
+            Debug.Log($"The game has ended and the result is: {GameStateManager.Instance.EndState}");
+        }
+    }
+
+    private void HandleClickMainUI(Collider2D hit)
+    {
+
+    }
+
+    private void HandleCameraSpeedMainUI()
+    {
+        if (currentCameraSpeed == targetCameraSpeed) return;
+
+        currentCameraSpeed = Mathf.SmoothDamp(currentCameraSpeed, targetCameraSpeed, ref velocity, smoothTime);
+        mainCamera.gameObject.transform.position += Vector3.right * currentCameraSpeed * Time.deltaTime;
+    }
+
+    private void Update()
+    {
+        if (currentScene == SceneManager.Scenes.MainUI)
+            HandleCameraSpeedMainUI();
+
+
+        //Needs Mouse
+        if (Mouse.current == null) return;
+
+        //Gets mouse position for parallax speed
+        if (currentScene == SceneManager.Scenes.MainUI)
+        {
+            Vector2 screenPos = Mouse.current.position.ReadValue();
+            bool isOnScreen = screenPos.x >= 0 && screenPos.x <= Screen.width && screenPos.y >= 0 && screenPos.y <= Screen.height;
+
+            if (isOnScreen)
+            {
+                float screenLength = Screen.width;
+
+                //0 - left / 1 - right
+                float cursorPosition = screenPos.x / screenLength;
+                float speed;
+
+                if (cursorPosition > 0.5f)
+                {
+                    //Go forwards
+                    speed = cursorPosition * 10;
+                }
+                else if (cursorPosition < 0.5f)
+                {
+                    float temp = 1f - cursorPosition;
+                    //Go backwards
+                    speed = -1 * temp * 10;
+                }
+                else
+                {
+                    speed = 0f;
+                }
+
+                targetCameraSpeed = speed;
+
+            }
+        }
+
+        //Left Click
+        if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             Vector2 mousePos = Mouse.current.position.ReadValue();
             Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
             Collider2D hit = Physics2D.OverlapPoint(worldPos);
 
-            if (GameStateManager.Instance.GameState == GameStateManager.State.Playing)
+            Debug.Log($"You are in: {currentScene}");
+
+            switch (currentScene)
             {
-                if (hit)
-                {
-                    //Get hit GameObject
-                    ChessPieceBase piece = hit.gameObject.GetComponentInParent<ChessPieceBase>();
-                    Tile tile = hit.gameObject.GetComponentInParent<Tile>();
+                case SceneManager.Scenes.Chess2d:
+                    HandleClickChess2d(hit);
+                    break;
+                case SceneManager.Scenes.MainUI:
 
-                    //Clears highlights if clicked piece is not a legal move
-                    if (piece != null)
-                    {
-                        Vector2Int boardPosition = piece.BoardPosition;
-
-                        bool isLegalMove = legalMoves != null && legalMoves.Contains(boardPosition);
-
-                        if (!isLegalMove)
-                        {
-                            ClearValues();
-                        }
-                        else
-                        {
-                            //Selected piece is a legal move
-                            ClickedOnLegalMove(selectedPiece.BoardPosition, boardPosition);
-                            return;
-                        }
-                    }
-
-                    //Clicked a tile
-                    if (tile != null)
-                    {
-                        Vector2Int boardPosition = tile.BoardPosition;
-
-                        Debug.Log($"Clicked on a tile: {boardPosition}");
-
-                        //Check if clicked tile is a legal move
-                        bool isTileLegalMove = legalMoves != null ? legalMoves.Contains(boardPosition) : false;
-                        bool isTileCastlingMove = castleMoves != null ? castleMoves.Contains(boardPosition) : false;
-                        bool isTileEnPassantMove = enPassantMove != null ? enPassantMove.Contains(boardPosition) : false;
-
-                        //First check for special moves: 
-
-                        //Check for castling
-                        if (isTileCastlingMove && selectedPiece != null && selectedPiece.Type == ChessPieceBase.PieceType.King)
-                        {
-                            //Clicked tile is a castling move
-                            ClickedOnCastleMove(selectedPiece.BoardPosition, boardPosition);
-                            return;
-                        }
-
-                        //Check for En Passant
-                        if (isTileEnPassantMove && selectedPiece != null && selectedPiece.Type == ChessPieceBase.PieceType.Pawn)
-                        {
-                            ClickedOnEnPassantMove(selectedPiece.BoardPosition, boardPosition);
-                            return;
-                        }
-
-                        //if it is not a legal move clear all highlights
-                        if (!isTileLegalMove)
-                        {
-                            ClearValues();
-                        }
-                        else
-                        {
-                            //Clicked tile is a legal move
-                            ClickedOnLegalMove(selectedPiece.BoardPosition, boardPosition);
-                            return;
-                        }
-                    }
-                    //Clicked a valid piece
-                    if (piece != null && GameStateManager.Instance.CurrentTurn == piece.Color)
-                    {
-                        //Places Select Highlight and clears old Highlights
-                        UImanager.ClearAll();
-                        UImanager.PlaceSelect(piece.BoardPosition);
-
-                        //Select logic
-                        selectedPiece = piece;
-
-                        //Get legal moves
-                        legalMoves = piece.GetLegalMoves(BoardManager.Instance.BoardState);
-
-                        var logicBoardState = Logic.GetLogicBoardState(BoardManager.Instance.BoardState);
-
-                        //Filter legal moves
-                        legalMoves = MoveValidator.Instance.RemoveUnsafeMoves(logicBoardState, legalMoves, piece.BoardPosition);
-
-                        //Get castleMoves if king
-                        if (piece.Type == PieceType.King)
-                            castleMoves = MoveValidator.Instance.GetCastleMoves(logicBoardState, piece.Color);
-
-                        //Get enPassantMove if pawn
-                        if (piece.Type == PieceType.Pawn)
-                            enPassantMove = MoveValidator.Instance.GetEnPassantMove(logicBoardState, piece.Color, piece.BoardPosition);
-
-                        //Place legal moves highlight
-                        UImanager.PlaceLegalMoves(legalMoves);
-                        UImanager.PlaceSpecialMoves(castleMoves);
-                        UImanager.PlaceSpecialMoves(enPassantMove);
-                    }
-                }
-                else
-                {
-                    //Clicked outside the board
-
-                    ClearValues();
-                }
+                    break;
             }
-            if (GameStateManager.Instance.GameState == GameStateManager.State.Promoting)
-            {
-                if (hit)
-                {
-                    var obj = hit.GameObject();
 
-
-                    PieceType chosenType = PieceType.None;
-
-                    switch (obj.name)
-                    {
-                        case "QueenOption":
-                            chosenType = PieceType.Queen;
-                            break;
-                        case "RookOption":
-                            chosenType = PieceType.Rook;
-                            break;
-                        case "BishopOption":
-                            chosenType = PieceType.Bishop;
-                            break;
-                        case "KnightOption":
-                            chosenType = PieceType.Knight;
-                            break;
-                    }
-
-                    Debug.Log($"Promoted to: {chosenType}");
-
-                    if (chosenType == PieceType.None)
-                        return;
-
-                    int x = promotionData.BoardPosition.x;
-                    int y = promotionData.BoardPosition.y;
-
-                    PromotionManager.Instance.HasPromotedTo(x, y, chosenType, promotionData.Color);
-
-                    GameStateManager.Instance.GameState = GameStateManager.State.Playing;
-                    GameStateManager.Instance.SwitchTurn();
-
-                    //Logging move
-                    float time = GameStateManager.Instance.GetTime();
-                    Instance.LogMove(promotionOrigin, promotionData.BoardPosition, PieceType.Pawn, promotionData.Color, SpecialMove.Promotion, chosenType, time, promotionCaptured);
-                }
-            }
-            if (GameStateManager.Instance.GameState == GameStateManager.State.GameEnd)
-            {
-                Debug.Log($"The game has ended and the result is: {GameStateManager.Instance.EndState}");
-            }
 
         }
-
-        ////TEMP
-        //if (Mouse.current != null && Mouse.current.rightButton.wasPressedThisFrame)
-        //{
-        //    ClearValues();
-        //    GameStateManager.Instance.GameState = GameStateManager.State.GameEnd;
-        //}
     }
 }

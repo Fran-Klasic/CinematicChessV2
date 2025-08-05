@@ -9,10 +9,9 @@ public class GameStateManager : MonoBehaviour
     [HideInInspector] public PieceColor CurrentTurn = PieceColor.White;
     [HideInInspector] public State GameState;
     [HideInInspector] public Promotion PromotionState;
-    [HideInInspector] public End EndState;
+    [HideInInspector] public End EndState = End.None;
 
     public static GameStateManager Instance;
-
 
     private bool updateState = true;
 
@@ -25,8 +24,6 @@ public class GameStateManager : MonoBehaviour
     {
         if (updateState)
         {
-            
-
             var logicBoardState = Logic.GetLogicBoardState(BoardManager.Instance.BoardState);
             bool isWhiteInCheckmate = MoveValidator.Instance.IsCheckmate(logicBoardState, PieceColor.White);
             //bool isWhiteInCheck = MoveValidator.Instance.IsCheck(logicBoardState, PieceColor.White); //For audio
@@ -67,9 +64,7 @@ public class GameStateManager : MonoBehaviour
 
             if (GameState == State.GameEnd)
             {
-                MoveHistory.Instance.HistoryToJSON();
-                //move with timestamp to dir
-                //MoveHistory.Instance.GameResultToJSON -> enum End
+                GameHistoryManager.Instance.SaveHistoryToGames(EndState);
                 //Start end cutscene (fade out)
                 //Change scene to editor
                 Debug.Log("Game has been saved");
@@ -88,7 +83,6 @@ public class GameStateManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {

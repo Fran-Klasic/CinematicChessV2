@@ -22,11 +22,9 @@ public class GameManager : MonoBehaviour
         boardSize = rows * tileSize;
         center = boardSize / 2 - tileSize / 2;
 
-
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
