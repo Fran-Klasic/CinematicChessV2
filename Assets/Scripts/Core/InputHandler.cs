@@ -10,7 +10,7 @@ public class InputHandler : MonoBehaviour
 {
     private Camera mainCamera;
 
-    public UIManager UImanager;
+    public ChessUIManager UImanager;
 
     private ChessPieceBase selectedPiece = null;
     private List<Vector2Int> legalMoves = null;
@@ -368,8 +368,6 @@ public class InputHandler : MonoBehaviour
             Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
             Collider2D hit = Physics2D.OverlapPoint(worldPos);
 
-            Debug.Log($"You are in: {currentScene}");
-
             switch (currentScene)
             {
                 case SceneManager.Scenes.Chess2d:
@@ -379,8 +377,6 @@ public class InputHandler : MonoBehaviour
 
                     break;
             }
-
-
         }
     }
 }

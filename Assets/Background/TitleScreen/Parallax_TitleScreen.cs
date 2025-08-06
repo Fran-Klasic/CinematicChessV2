@@ -4,7 +4,7 @@ using UnityEngine;
 public class Parallax_TitleScreen : MonoBehaviour
 {
     private float length, startPosition;
-    [SerializeField] private GameObject camera;
+    [SerializeField] private GameObject cam;
     [SerializeField] private float parallaxEffect;
 
     void Start()
@@ -15,8 +15,8 @@ public class Parallax_TitleScreen : MonoBehaviour
 
     void FixedUpdate()
     {
-        float temp = camera.transform.position.x * (1 - parallaxEffect);
-        float distance = camera.transform.position.x * parallaxEffect;
+        float temp = cam.transform.position.x * (1 - parallaxEffect);
+        float distance = cam.transform.position.x * parallaxEffect;
 
         transform.position = new Vector3(startPosition + distance, transform.position.y, transform.position.z);
 

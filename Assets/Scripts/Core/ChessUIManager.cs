@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class ChessUIManager : MonoBehaviour
 {
     [SerializeField] private GameObject selectPrefab;
     [SerializeField] private GameObject legalMovePrefab;
