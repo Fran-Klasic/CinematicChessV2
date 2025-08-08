@@ -80,7 +80,6 @@ public class MainMenuButton : MonoBehaviour
         transition.SetTrigger("In");
     }
 
-
     private IEnumerator QuitGame()
     {
         transitionOut();

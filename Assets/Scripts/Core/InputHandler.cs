@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using static ChessPieceBase;
-using static GameHistoryManager;
+using static FileManager;
 using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 
@@ -40,8 +40,6 @@ public class InputHandler : MonoBehaviour
     private void ClickedOnLegalMove(Vector2Int from, Vector2Int to)
     {
         ClearValues();
-
-
 
         //EN PASSANT
         if (EnPassantIsPossibleOnColor != GameStateManager.Instance.CurrentTurn)
@@ -91,7 +89,7 @@ public class InputHandler : MonoBehaviour
         float time = GameStateManager.Instance.GetTime();
 
         //Logging move
-        GameHistoryManager.Instance.LogMove(from, to, pieceAtPositionTo.Type, pieceAtPositionTo.Color, SpecialMove.None, PieceType.None, time, hasCaptured);
+        FileManager.Instance.LogMove(from, to, pieceAtPositionTo.Type, pieceAtPositionTo.Color, SpecialMove.None, PieceType.None, time, hasCaptured);
     }
 
     private void ClickedOnCastleMove(Vector2Int from, Vector2Int to)

@@ -7,7 +7,7 @@ using Newtonsoft.Json.Converters;
 using System;
 
 
-public class GameHistoryManager : MonoBehaviour
+public class FileManager : MonoBehaviour
 {
     [HideInInspector] public string pathToTempDirectory;
     [HideInInspector] public string pathToGamesDirectory;
@@ -171,7 +171,7 @@ public class GameHistoryManager : MonoBehaviour
             Directory.CreateDirectory(pathToPlayerDirectory);
     }
 
-    public static GameHistoryManager Instance;
+    public static FileManager Instance;
     //MoveHistory.Instance.--- -> Singleton
     private void Awake()
     {

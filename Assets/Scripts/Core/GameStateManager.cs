@@ -64,7 +64,7 @@ public class GameStateManager : MonoBehaviour
 
             if (GameState == State.GameEnd)
             {
-                GameHistoryManager.Instance.SaveHistoryToGames(EndState);
+                FileManager.Instance.SaveHistoryToGames(EndState);
                 //Start end cutscene (fade out)
                 //Change scene to editor
                 Debug.Log("Game has been saved");

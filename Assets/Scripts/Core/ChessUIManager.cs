@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class ChessUIManager : MonoBehaviour
@@ -34,7 +35,7 @@ public class ChessUIManager : MonoBehaviour
 
     public void PlaceSpecialMoves(List<Vector2Int> positions)
     {
-        if(positions == null || positions.Count == 0)
+        if (positions == null || positions.Count == 0)
         {
             return;
         }
@@ -63,7 +64,7 @@ public class ChessUIManager : MonoBehaviour
         }
         foreach (var piece in BoardManager.Instance.BoardState)
         {
-            if(piece == null)
+            if (piece == null)
                 continue;
             piece.IsCapturable = false;
         }
@@ -74,5 +75,28 @@ public class ChessUIManager : MonoBehaviour
     {
         ClearSelection();
         ClearLegalMoves();
+    }
+
+    private void DisplayCurrentTurnPlayer()
+    {
+        TextMeshProUGUI textObject = gameObject.GetComponent<TextMeshProUGUI>();
+        if (textObject != null)
+        {
+            var currentTurn = GameStateManager.Instance.CurrentTurn;
+            string text = string.Empty;
+
+            //currentTurn can be None
+            if (currentTurn == ChessPieceBase.PieceColor.White)
+                text = "White's Turn!";
+            if (currentTurn == ChessPieceBase.PieceColor.Black)
+                text = "Black's Turn!";
+            textObject.text = text;
+        }
+    }
+
+    private void Update()
+    {
+        if (gameObject.name == "PlayerTurnData")
+            DisplayCurrentTurnPlayer();
     }
 }

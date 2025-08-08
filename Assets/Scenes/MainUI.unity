@@ -3793,7 +3793,7 @@ GameObject:
   - component: {fileID: 1375464496}
   - component: {fileID: 1375464495}
   m_Layer: 0
-  m_Name: GameHistoryManager_Persist
+  m_Name: FileManager_Persist
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3808,7 +3808,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1375464494}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abcd376635ad9d146b35d6cbe6a6da2d, type: 3}
+  m_Script: {fileID: 11500000, guid: 1850853b4df20ba4d8c48f9221eff629, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pathToTempDirectory: 
