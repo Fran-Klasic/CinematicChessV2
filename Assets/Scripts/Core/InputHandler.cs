@@ -370,11 +370,11 @@ public class InputHandler : MonoBehaviour
 
             switch (currentScene)
             {
-                case SceneManager.Scenes.Chess2d:
+                case SceneManager.Scenes.Chess2dVSFriend:
                     HandleClickChess2d(hit);
                     break;
                 case SceneManager.Scenes.MainUI:
-
+                    HandleClickMainUI(hit);
                     break;
             }
         }

@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SceneManager : MonoBehaviour
 {
     //All scenes in a const string
-    public enum Scenes {None, MainUI ,Chess2d, AnimationEditor, Animation3d}
+    public enum Scenes {None, MainUI ,Chess2dVSFriend, AnimationEditor, Animation3d}
 
     public const string mainUI = "MainUI";
-    public const string chess2d = "Chess2d";
-
-
+    public const string chess2dVSFriend = "Chess2dVSFriend";
 
     //Functions that handle scene switching
     public void LoadMainUI()
@@ -16,9 +15,9 @@ public class SceneManager : MonoBehaviour
 
     }
 
-    public void LoadChess2d()
+    public void LoadChess2dVSFriend()
     {
-
+        UnityEngine.SceneManagement.SceneManager.LoadScene(chess2dVSFriend);
     }
 
     public void LoadMenu(string currentScene)
@@ -35,8 +34,8 @@ public class SceneManager : MonoBehaviour
     {
         switch (sceneName)
         {
-            case chess2d:
-                return Scenes.Chess2d;
+            case chess2dVSFriend:
+                return Scenes.Chess2dVSFriend;
             case mainUI:
                 return Scenes.MainUI;
         }
