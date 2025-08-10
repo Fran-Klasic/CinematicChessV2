@@ -1,6 +1,10 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.IO;
+using TMPro;
 
 public class MainMenuButton : MonoBehaviour
 {
@@ -12,6 +16,15 @@ public class MainMenuButton : MonoBehaviour
     [Header("Play Button Only")]
     [SerializeField] private Animator playMenuAnimator;
     [SerializeField] private GameObject playMenuGroup;
+    [Space(10)]
+
+    [Header("Games Button Only")]
+    [SerializeField] private GameObject titleScreen_Group;
+    [SerializeField] private GameObject games_Group;
+    [SerializeField] private GameObject contentGameObject;
+    [SerializeField] private GameObject gamePrefab;
+    [SerializeField] private GameObject gamePrefab_None;
+
     [Space(10)]
 
     [Header("General")]
@@ -27,6 +40,7 @@ public class MainMenuButton : MonoBehaviour
         if (isAnimating) return; //Do not interrupt current animation
 
         Debug.Log("Clicked on " + buttonName);
+
         switch (buttonName)
         {
             case "Play_Button":
@@ -62,19 +76,25 @@ public class MainMenuButton : MonoBehaviour
             case "PlayBotButton":
                 HandlePlayBotButton();
                 break;
+            case "Delete":
+                HandleDeleteButton();
+                break;
+            case "Editor":
+                HandleEditorButton();
+                break;
         }
 
         //Animator will try to change state into selected
         //Unselect button from the animator
         EventSystem.current.SetSelectedGameObject(null);
     }
-    private void transitionOut()
+    private void TransitionOut()
     {
         isAnimating = true;
         transition.SetTrigger("Out");
     }
 
-    private void transitionIn()
+    private void TransitionIn()
     {
         isAnimating = true;
         transition.SetTrigger("In");
@@ -82,7 +102,7 @@ public class MainMenuButton : MonoBehaviour
 
     private IEnumerator QuitGame()
     {
-        transitionOut();
+        TransitionOut();
         yield return new WaitForSeconds(universalTransitionTime);
         Application.Quit();
 
@@ -95,7 +115,7 @@ public class MainMenuButton : MonoBehaviour
 
     private IEnumerator PlayFriendButton()
     {
-        transitionOut();
+        TransitionOut();
         yield return new WaitForSeconds(universalTransitionTime);
         isAnimating = false;
 
@@ -129,9 +149,24 @@ public class MainMenuButton : MonoBehaviour
         isAnimating = false;
     }
 
+    private IEnumerator StartGamesMenu()
+    {
+        TransitionOut();
+        yield return new WaitForSeconds(universalTransitionTime);
+
+        titleScreen_Group.SetActive(false);
+        games_Group.SetActive(true);
+
+        TransitionIn();
+        yield return new WaitForSeconds(universalTransitionTime);
+
+        isAnimating = false;
+    }
+
     private void HandlePlayButton()
     {
         if (playMenuAnimator == null) return;
+        if (isAnimating) return;
 
         if (!isPlayMenuActive)
             StartCoroutine(StartPlayMenu());
@@ -141,6 +176,59 @@ public class MainMenuButton : MonoBehaviour
 
     private void HandleGamesButton()
     {
+        if (transition == null) return;
+        if (isAnimating) return;
+
+        StartCoroutine(StartGamesMenu());
+
+        string folderPath = FileManager.Instance.pathToGamesDirectory;
+
+        if (!Directory.Exists(folderPath))
+            Directory.CreateDirectory(folderPath);
+
+        string[] files = Directory.GetFiles(folderPath);
+
+        //Data
+        string gamesDataFile; //Contains data on game layout
+        List<string> allGames = new List<string>();
+        allGames.AddRange(files);
+
+        //Remove all files that dont end in .json
+        allGames.RemoveAll(file => !file.EndsWith(".json", System.StringComparison.OrdinalIgnoreCase));
+
+
+        foreach (string file in allGames)
+        {
+            //Check each file to confirm it is valid
+            //Remove gamesDataFile
+        }
+
+
+        if (allGames.Count == 0)
+        {
+            GameObject newObj = Instantiate(gamePrefab_None, Vector3.zero, Quaternion.identity);
+            newObj.transform.SetParent(contentGameObject.transform);
+            newObj.transform.localScale = Vector3.one;
+        }
+        else
+        {
+            //Add gamePrefabs based on file data
+            foreach (string file in allGames)
+            {
+                GameObject game = Instantiate(gamePrefab, Vector3.zero, Quaternion.identity);
+                game.transform.SetParent(contentGameObject.transform);
+                game.transform.localScale = Vector3.one;
+                //Open file and set child data
+                string gameName = Path.GetFileNameWithoutExtension(file);
+
+                TextMeshProUGUI gameNameData = game.transform.Find("Background/GameName").gameObject.GetComponent<TextMeshProUGUI>();
+                if(gameName.Length > 50)
+                    gameName = gameName.Substring(0, 50); //Limit the game name to 50 characters
+                gameNameData.text = gameName;
+            }
+        }
+
+
     }
 
     private void HandleAnimationsButton()
@@ -194,4 +282,15 @@ public class MainMenuButton : MonoBehaviour
     {
 
     }
+
+    private void HandleDeleteButton()
+    {
+
+    }
+
+    private void HandleEditorButton()
+    {
+
+    }
+
 }
