@@ -37,14 +37,37 @@ public class FileManager : MonoBehaviour
         public PieceColor pieceColor { get; set; }
         public SpecialMove specialMove { get; set; }
         public PieceType promotedInto { get; set; }
-        public float time { get; set; }
+        public float time { get; set; } 
         public bool hasCaptured { get; set; }
     }
+
+    public class MetaData
+    {
+        public DateTime date { get; set; }
+        public float totalTime { get; set; }
+        public int totalMoves { get; set; }
+        public GameStateManager.End EndState { get; set; }
+
+        public MetaData(DateTime date, float totalTime, int totalMoves, GameStateManager.End endState)
+        {
+            this.date = date;
+            this.totalTime = totalTime;
+            this.totalMoves = totalMoves;
+            EndState = endState;
+        }
+    }
+
 
     public class GameRecord
     {
         public List<ChessMove> History { get; set; }
-        public GameStateManager.End EndState { get; set; }
+        public MetaData MetaData { get; set; }
+
+        public GameRecord(List<ChessMove> history, MetaData metaData)
+        {
+            History = history;
+            MetaData = metaData;
+        }
     }
 
     [HideInInspector] public List<ChessMove> History = new List<ChessMove>();
@@ -68,7 +91,7 @@ public class FileManager : MonoBehaviour
         UpdateTempGame();
     }
 
-    public void SaveHistoryToGames(GameStateManager.End endState)
+    public void SaveHistoryToGames(GameStateManager.End endState, float time)
     {
         var settings = new JsonSerializerSettings
         {
@@ -76,17 +99,13 @@ public class FileManager : MonoBehaviour
             Converters = { new StringEnumConverter() }
         };
 
-        var gameRecord = new GameRecord
-        {
-            History = this.History,
-            EndState = endState
-        };
+        int totalMoves = History.Count;
+
+        MetaData metaData = new MetaData(DateTime.Now, time, totalMoves, endState);
+
+        GameRecord gameRecord = new GameRecord(History, metaData);
 
         string gameData = JsonConvert.SerializeObject(gameRecord, settings);
-
-        DateTime dateTime = DateTime.Now;
-        string date = dateTime.ToString("yyyy-MM-dd_HH-mm-ss");
-        string gameFileName = "Game_" + date + ".json";
 
         if (!string.IsNullOrEmpty(pathToGamesDirectory))
         {
@@ -95,7 +114,21 @@ public class FileManager : MonoBehaviour
                 Directory.CreateDirectory(pathToGamesDirectory);
             }
 
-            string path = Path.Combine(pathToGamesDirectory, gameFileName);
+            int counter = 1;
+            string path;
+            string gameFileName = "Game.json";
+
+
+            //Generate unique file
+            while (true)
+            {
+                path = Path.Combine(pathToGamesDirectory, gameFileName);
+                if (File.Exists(path))
+                    gameFileName = $"Game({counter}).json";
+                else
+                    break;
+                counter++;
+            }
 
             try
             {
@@ -170,6 +203,7 @@ public class FileManager : MonoBehaviour
         if (!Directory.Exists(pathToPlayerDirectory))
             Directory.CreateDirectory(pathToPlayerDirectory);
     }
+
 
     public static FileManager Instance;
     //MoveHistory.Instance.--- -> Singleton

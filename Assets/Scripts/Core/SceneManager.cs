@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class SceneManager : MonoBehaviour
 {
     //All scenes in a const string
-    public enum Scenes {None, MainUI ,Chess2dVSFriend, AnimationEditor, Animation3d}
+    public enum Scenes { None, MainUI, Chess2dVSFriend, AnimationEditor, Animation3d }
 
     public const string mainUI = "MainUI";
     public const string chess2dVSFriend = "Chess2dVSFriend";
@@ -12,12 +12,12 @@ public class SceneManager : MonoBehaviour
     //Functions that handle scene switching
     public void LoadMainUI()
     {
-
+        UnityEngine.SceneManagement.SceneManager.LoadScene(mainUI, LoadSceneMode.Single);
     }
 
     public void LoadChess2dVSFriend()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(chess2dVSFriend);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(chess2dVSFriend, LoadSceneMode.Single);
     }
 
     public void LoadMenu(string currentScene)
