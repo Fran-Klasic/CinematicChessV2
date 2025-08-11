@@ -86,9 +86,6 @@ public class MainMenuButton : MonoBehaviour
             case "PlayFriendButton":
                 HandlePlayFriendButton();
                 break;
-            case "PlayMultiplayerButton":
-                HandlePlayMultiplayerButton();
-                break;
             case "PlayBotButton":
                 HandlePlayBotButton();
                 break;
@@ -402,11 +399,6 @@ public class MainMenuButton : MonoBehaviour
         if (isAnimating) return;
 
         StartCoroutine(PlayFriendButton());
-    }
-
-    private void HandlePlayMultiplayerButton()
-    {
-
     }
 
     private void HandlePlayBotButton()
