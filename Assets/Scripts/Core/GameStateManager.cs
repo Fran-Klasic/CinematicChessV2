@@ -10,10 +10,12 @@ public class GameStateManager : MonoBehaviour
     [HideInInspector] public State GameState;
     [HideInInspector] public Promotion PromotionState;
     [HideInInspector] public End EndState = End.None;
+    [HideInInspector] public bool didResign = false;
 
     public static GameStateManager Instance;
 
     private bool updateState = true;
+
 
     public float GetTime()
     {
@@ -62,15 +64,33 @@ public class GameStateManager : MonoBehaviour
                 updateState = false;
             }
 
+            if (didResign)
+            {
+                //Game ended, someone resigned
+                if(CurrentTurn == PieceColor.White)
+                {
+                    EndState = End.BlackWon;
+                }
+                else
+                {
+                    EndState = End.WhiteWon;
+                }
+
+                //Update game state
+                GameState = State.GameEnd;
+
+                //No need to check anything again
+                updateState = false;
+            }
+
             if (GameState == State.GameEnd)
             {
                 FileManager.Instance.SaveHistoryToGames(EndState, GetTime());
 
-
-
                 //Start end cutscene (fade out)
                 //Change scene to editor
                 Debug.Log("Game has been saved");
+                Debug.Log(EndState);
                 updateState = false;
             }
         }

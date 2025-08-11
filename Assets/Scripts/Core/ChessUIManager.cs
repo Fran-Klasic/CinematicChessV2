@@ -93,7 +93,7 @@ public class ChessUIManager : MonoBehaviour
             textObject.text = text;
         }
     }
-
+    
     private void Update()
     {
         if (gameObject.name == "PlayerTurnData")

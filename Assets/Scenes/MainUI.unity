@@ -175,6 +175,8 @@ MonoBehaviour:
   contentGameObject: {fileID: 0}
   gamePrefab: {fileID: 0}
   gamePrefab_None: {fileID: 0}
+  gameEndCanvasAnimator: {fileID: 0}
+  gameEndCanvas: {fileID: 0}
   transition: {fileID: 0}
   titleScreen_Group: {fileID: 0}
   games_Group: {fileID: 0}
@@ -529,6 +531,8 @@ MonoBehaviour:
   contentGameObject: {fileID: 0}
   gamePrefab: {fileID: 0}
   gamePrefab_None: {fileID: 0}
+  gameEndCanvasAnimator: {fileID: 0}
+  gameEndCanvas: {fileID: 0}
   transition: {fileID: 120959534}
   titleScreen_Group: {fileID: 0}
   games_Group: {fileID: 0}
@@ -1315,6 +1319,8 @@ MonoBehaviour:
   contentGameObject: {fileID: 0}
   gamePrefab: {fileID: 0}
   gamePrefab_None: {fileID: 0}
+  gameEndCanvasAnimator: {fileID: 0}
+  gameEndCanvas: {fileID: 0}
   transition: {fileID: 120959534}
   titleScreen_Group: {fileID: 0}
   games_Group: {fileID: 0}
@@ -2087,6 +2093,8 @@ MonoBehaviour:
   contentGameObject: {fileID: 0}
   gamePrefab: {fileID: 0}
   gamePrefab_None: {fileID: 0}
+  gameEndCanvasAnimator: {fileID: 0}
+  gameEndCanvas: {fileID: 0}
   transition: {fileID: 120959534}
   titleScreen_Group: {fileID: 0}
   games_Group: {fileID: 0}
@@ -2404,6 +2412,8 @@ MonoBehaviour:
   contentGameObject: {fileID: 0}
   gamePrefab: {fileID: 0}
   gamePrefab_None: {fileID: 0}
+  gameEndCanvasAnimator: {fileID: 0}
+  gameEndCanvas: {fileID: 0}
   transition: {fileID: 120959534}
   titleScreen_Group: {fileID: 0}
   games_Group: {fileID: 0}
@@ -3067,6 +3077,8 @@ MonoBehaviour:
   contentGameObject: {fileID: 2076747910}
   gamePrefab: {fileID: 617439984063162436, guid: 52dbd9b927c0f3343b30cd0b06569162, type: 3}
   gamePrefab_None: {fileID: 617439984063162436, guid: dea62305ad30366419d34287d9ca1a7d, type: 3}
+  gameEndCanvasAnimator: {fileID: 0}
+  gameEndCanvas: {fileID: 0}
   transition: {fileID: 120959534}
   titleScreen_Group: {fileID: 243134400}
   games_Group: {fileID: 1018250513}
@@ -3765,6 +3777,8 @@ MonoBehaviour:
   contentGameObject: {fileID: 0}
   gamePrefab: {fileID: 0}
   gamePrefab_None: {fileID: 0}
+  gameEndCanvasAnimator: {fileID: 0}
+  gameEndCanvas: {fileID: 0}
   transition: {fileID: 120959534}
   titleScreen_Group: {fileID: 0}
   games_Group: {fileID: 0}
@@ -4085,6 +4099,8 @@ MonoBehaviour:
   contentGameObject: {fileID: 0}
   gamePrefab: {fileID: 0}
   gamePrefab_None: {fileID: 0}
+  gameEndCanvasAnimator: {fileID: 0}
+  gameEndCanvas: {fileID: 0}
   transition: {fileID: 120959534}
   titleScreen_Group: {fileID: 243134400}
   games_Group: {fileID: 1018250513}
@@ -4382,6 +4398,8 @@ MonoBehaviour:
   contentGameObject: {fileID: 0}
   gamePrefab: {fileID: 0}
   gamePrefab_None: {fileID: 0}
+  gameEndCanvasAnimator: {fileID: 0}
+  gameEndCanvas: {fileID: 0}
   transition: {fileID: 120959534}
   titleScreen_Group: {fileID: 0}
   games_Group: {fileID: 0}
@@ -4701,6 +4719,8 @@ MonoBehaviour:
   contentGameObject: {fileID: 0}
   gamePrefab: {fileID: 0}
   gamePrefab_None: {fileID: 0}
+  gameEndCanvasAnimator: {fileID: 0}
+  gameEndCanvas: {fileID: 0}
   transition: {fileID: 120959534}
   titleScreen_Group: {fileID: 0}
   games_Group: {fileID: 0}
@@ -4765,7 +4785,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Version: 2.1.4'
+  m_text: 'Version: 2.1.5'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 474579fbb5bf59748ad665bfdc76b743, type: 2}
   m_sharedMaterial: {fileID: 3016285446147462758, guid: 474579fbb5bf59748ad665bfdc76b743, type: 2}
@@ -5554,6 +5574,8 @@ MonoBehaviour:
   contentGameObject: {fileID: 2076747910}
   gamePrefab: {fileID: 617439984063162436, guid: 52dbd9b927c0f3343b30cd0b06569162, type: 3}
   gamePrefab_None: {fileID: 617439984063162436, guid: dea62305ad30366419d34287d9ca1a7d, type: 3}
+  gameEndCanvasAnimator: {fileID: 0}
+  gameEndCanvas: {fileID: 0}
   transition: {fileID: 0}
   titleScreen_Group: {fileID: 0}
   games_Group: {fileID: 0}
@@ -5871,6 +5893,8 @@ MonoBehaviour:
   contentGameObject: {fileID: 0}
   gamePrefab: {fileID: 0}
   gamePrefab_None: {fileID: 0}
+  gameEndCanvasAnimator: {fileID: 0}
+  gameEndCanvas: {fileID: 0}
   transition: {fileID: 120959534}
   titleScreen_Group: {fileID: 0}
   games_Group: {fileID: 0}

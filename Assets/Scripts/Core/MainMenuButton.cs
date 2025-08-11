@@ -27,6 +27,11 @@ public class MainMenuButton : MonoBehaviour
     [SerializeField] private GameObject gamePrefab_None;
     [Space(10)]
 
+    [Header("Resign Button Only")]
+    [SerializeField] private Animator gameEndCanvasAnimator;
+    [SerializeField] private GameObject gameEndCanvas;
+    [Space(10)]
+
     [Header("General")]
     [SerializeField] private Animator transition;
     [SerializeField] private GameObject titleScreen_Group;
@@ -45,9 +50,22 @@ public class MainMenuButton : MonoBehaviour
     {
         //Makes Games button stutter less
         var scene = SceneManager.Instance.GetScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-        if(buttonName == "LevelLoader" && scene == SceneManager.Scenes.MainUI)
+        if (buttonName == "LevelLoader" && scene == SceneManager.Scenes.MainUI)
         {
             ValidateFiles();
+        }
+    }
+
+    private bool isOver = false;
+    private void Update()
+    {
+        //Check if game is over
+        if (GameStateManager.Instance != null &&
+            GameStateManager.Instance.GameState == GameStateManager.State.GameEnd &&
+            !isOver)
+        {
+            if (buttonName == "Resign") GameEndAnimation();
+            isOver = true;
         }
     }
 
@@ -98,6 +116,12 @@ public class MainMenuButton : MonoBehaviour
             case "Exit":
                 HandleExitButton();
                 break;
+            case "Resign":
+                HandleResignButton();
+                break;
+            case "PlayAgain":
+                HandlePlayAgainButton();
+                break;
         }
 
         //Animator will try to change state into selected
@@ -117,6 +141,51 @@ public class MainMenuButton : MonoBehaviour
         transition.SetTrigger("In");
     }
 
+    private IEnumerator StartGameEndCanvas()
+    {
+        isAnimating = true;
+        yield return new WaitForEndOfFrame();
+
+        TextMeshProUGUI result = gameEndCanvas.transform.Find("GameEndScreen/Result").gameObject.GetComponent<TextMeshProUGUI>();
+        string formatedResult;
+        switch (GameStateManager.Instance.EndState)
+        {
+            case GameStateManager.End.BlackWon:
+                formatedResult = "Black Won!!!";
+                break;
+            case GameStateManager.End.WhiteWon:
+                formatedResult = "White Won!!!";
+                break;
+            case GameStateManager.End.Draw:
+                formatedResult = "Draw!!!";
+                break;
+            default:
+                formatedResult = "null";
+                break;
+        }
+        result.text = formatedResult;
+
+        TextMeshProUGUI totalTime = gameEndCanvas.transform.Find("GameEndScreen/VerticalLayout/TotalTime").gameObject.GetComponent<TextMeshProUGUI>();
+        float seconds = GameStateManager.Instance.GetTime();
+        TimeSpan timeSpan = TimeSpan.FromSeconds(seconds);
+
+        string formatedTime;
+
+        if (timeSpan.Hours > 0)
+            formatedTime = $"{timeSpan.Hours}h {timeSpan.Minutes}min {timeSpan.Seconds}sec";
+        else if (timeSpan.Minutes > 0)
+            formatedTime = $"{timeSpan.Minutes}min {timeSpan.Seconds}sec";
+        else
+            formatedTime = $"{timeSpan.Seconds}sec";
+        totalTime.text = "Game Lasted: " + formatedTime;
+
+        gameEndCanvasAnimator.SetTrigger("Start");
+        yield return new WaitForSeconds(universalTransitionTime);
+        isAnimating = false;
+
+
+    }
+
     private IEnumerator QuitGame()
     {
         TransitionOut();
@@ -132,6 +201,11 @@ public class MainMenuButton : MonoBehaviour
 
     private IEnumerator StartTitleScreen()
     {
+        if (gameEndCanvasAnimator != null && gameEndCanvas != null)
+        {
+            gameEndCanvasAnimator.SetTrigger("End");
+        }
+
         TransitionOut();
         yield return new WaitForSeconds(universalTransitionTime);
 
@@ -144,6 +218,11 @@ public class MainMenuButton : MonoBehaviour
 
     private IEnumerator PlayFriendButton()
     {
+        if (gameEndCanvasAnimator != null && gameEndCanvas != null)
+        {
+            gameEndCanvasAnimator.SetTrigger("End");
+        }
+
         TransitionOut();
         yield return new WaitForSeconds(universalTransitionTime);
 
@@ -204,7 +283,7 @@ public class MainMenuButton : MonoBehaviour
 
     private void ValidateFiles()
     {
-        foreach(Transform child in contentGameObject.transform)
+        foreach (Transform child in contentGameObject.transform)
         {
             Destroy(child.gameObject);
         }
@@ -247,12 +326,6 @@ public class MainMenuButton : MonoBehaviour
                 if (record.MetaData.totalTime <= 0)
                 {
                     Debug.LogError(file + " Total time can not be 0 or below");
-                    allGames.Remove(file);
-                    continue;
-                }
-                if (record.MetaData.totalMoves <= 0)
-                {
-                    Debug.LogError(file + " Total moves can not be 0 or below");
                     allGames.Remove(file);
                     continue;
                 }
@@ -424,5 +497,24 @@ public class MainMenuButton : MonoBehaviour
         StartCoroutine(StartTitleScreen());
     }
 
+    private void HandleResignButton()
+    {
+        GameStateManager.Instance.didResign = true;
 
+        GameEndAnimation();
+    }
+
+    private void GameEndAnimation()
+    {
+        gameEndCanvas.SetActive(true);
+        StartCoroutine(StartGameEndCanvas());
+    }
+
+    private void HandlePlayAgainButton()
+    {
+        if (transition == null) return;
+        if (isAnimating) return;
+
+        StartCoroutine(PlayFriendButton());
+    }
 }
