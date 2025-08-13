@@ -16,12 +16,6 @@ public class GameStateManager : MonoBehaviour
 
     private bool updateState = true;
 
-
-    public float GetTime()
-    {
-        return Time.time;
-    }
-
     private void Update()
     {
         if (updateState)
@@ -85,10 +79,8 @@ public class GameStateManager : MonoBehaviour
 
             if (GameState == State.GameEnd)
             {
-                FileManager.Instance.SaveHistoryToGames(EndState, GetTime());
+                FileManager.Instance.SaveHistoryToGames(EndState, StopwatchManager.Instance.GetTime());
 
-                //Start end cutscene (fade out)
-                //Change scene to editor
                 Debug.Log("Game has been saved");
                 Debug.Log(EndState);
                 updateState = false;

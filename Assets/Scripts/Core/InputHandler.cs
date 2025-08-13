@@ -86,7 +86,7 @@ public class InputHandler : MonoBehaviour
 
         GameStateManager.Instance.SwitchTurn();
 
-        float time = GameStateManager.Instance.GetTime();
+        float time = StopwatchManager.Instance.GetTime();
 
         //Logging move
         FileManager.Instance.LogMove(from, to, pieceAtPositionTo.Type, pieceAtPositionTo.Color, SpecialMove.None, PieceType.None, time, hasCaptured);
@@ -96,7 +96,7 @@ public class InputHandler : MonoBehaviour
     {
         ClearValues();
 
-        float time = GameStateManager.Instance.GetTime();
+        float time = StopwatchManager.Instance.GetTime();
 
         if (EnPassantIsPossibleOnColor != GameStateManager.Instance.CurrentTurn)
         {
@@ -117,7 +117,7 @@ public class InputHandler : MonoBehaviour
     {
         ClearValues();
 
-        float time = GameStateManager.Instance.GetTime();
+        float time = StopwatchManager.Instance.GetTime();
 
         if (EnPassantIsPossibleOnColor != GameStateManager.Instance.CurrentTurn)
         {
@@ -141,6 +141,9 @@ public class InputHandler : MonoBehaviour
         //Check for scene
         Scene scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
         currentScene = SceneManager.Instance.GetScene(scene.name);
+
+        if (currentScene == SceneManager.Scenes.Chess2dVSFriend)
+            StopwatchManager.Instance.StartStopwatch();
     }
 
     //Update functions for "Chess2d"
@@ -292,7 +295,7 @@ public class InputHandler : MonoBehaviour
                 GameStateManager.Instance.SwitchTurn();
 
                 //Logging move
-                float time = GameStateManager.Instance.GetTime();
+                float time = StopwatchManager.Instance.GetTime();
                 Instance.LogMove(promotionOrigin, promotionData.BoardPosition, PieceType.Pawn, promotionData.Color, SpecialMove.Promotion, chosenType, time, promotionCaptured);
             }
         }
@@ -319,6 +322,7 @@ public class InputHandler : MonoBehaviour
     {
         if (currentScene == SceneManager.Scenes.MainUI)
             HandleCameraSpeedMainUI();
+
 
 
         //Needs Mouse

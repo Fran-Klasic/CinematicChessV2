@@ -8,6 +8,8 @@ using TMPro;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json;
 using System.Linq;
+using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class MainMenuButton : MonoBehaviour
 {
@@ -40,6 +42,7 @@ public class MainMenuButton : MonoBehaviour
     [SerializeField] private GameObject favorites_Group;
     [SerializeField] private GameObject options_Group;
     [SerializeField] private GameObject credits_Group;
+    [SerializeField] private GameObject editor_Group;
 
     private void Awake()
     {
@@ -166,7 +169,7 @@ public class MainMenuButton : MonoBehaviour
         result.text = formatedResult;
 
         TextMeshProUGUI totalTime = gameEndCanvas.transform.Find("GameEndScreen/VerticalLayout/TotalTime").gameObject.GetComponent<TextMeshProUGUI>();
-        float seconds = GameStateManager.Instance.GetTime();
+        float seconds = StopwatchManager.Instance.GetTime();
         TimeSpan timeSpan = TimeSpan.FromSeconds(seconds);
 
         string formatedTime;
@@ -189,6 +192,7 @@ public class MainMenuButton : MonoBehaviour
     private IEnumerator QuitGame()
     {
         TransitionOut();
+
         yield return new WaitForSeconds(universalTransitionTime);
         Application.Quit();
 
@@ -224,6 +228,7 @@ public class MainMenuButton : MonoBehaviour
         }
 
         TransitionOut();
+
         yield return new WaitForSeconds(universalTransitionTime);
 
         SceneManager.Instance.LoadChess2dVSFriend();
@@ -233,6 +238,7 @@ public class MainMenuButton : MonoBehaviour
     private IEnumerator StartPlayMenu()
     {
         isAnimating = true;
+
         playMenuGroup.SetActive(true);
 
         playMenuAnimator.SetTrigger("Start");
@@ -260,6 +266,7 @@ public class MainMenuButton : MonoBehaviour
     private IEnumerator StartGamesMenu()
     {
         TransitionOut();
+
         yield return new WaitForSeconds(universalTransitionTime);
 
         titleScreen_Group.SetActive(false);
@@ -267,6 +274,25 @@ public class MainMenuButton : MonoBehaviour
 
         TransitionIn();
         isAnimating = false;
+
+        yield return new WaitForSeconds(universalTransitionTime);
+    }
+
+    private IEnumerator StartEditor(SceneManager.Scenes currentScene, FileManager.GameRecord record)
+    {
+        TransitionOut();
+
+        yield return new WaitForSeconds(universalTransitionTime);
+        
+        titleScreen_Group.SetActive(false);
+        games_Group.SetActive(false);
+        editor_Group.SetActive(true);
+
+        ReplayManager.Instance.record = record;
+
+        TransitionIn();
+        isAnimating = false;
+
         yield return new WaitForSeconds(universalTransitionTime);
     }
 
@@ -281,13 +307,8 @@ public class MainMenuButton : MonoBehaviour
             StartCoroutine(EndPlayMenu());
     }
 
-    private void ValidateFiles()
+    private (List<string>, List<(FileManager.GameRecord, string)>) ValidateFiles()
     {
-        foreach (Transform child in contentGameObject.transform)
-        {
-            Destroy(child.gameObject);
-        }
-
         string folderPath = FileManager.Instance.pathToGamesDirectory;
 
         if (!Directory.Exists(folderPath))
@@ -343,6 +364,8 @@ public class MainMenuButton : MonoBehaviour
                 }
 
                 //json is valid
+                //The file was validated and saved to data list
+                //Data list contains the json data and the path to file
                 data.Add((record, file));
             }
             catch (Exception ex)
@@ -351,6 +374,19 @@ public class MainMenuButton : MonoBehaviour
                 allGames.Remove(file);
                 continue;
             }
+        }
+
+        return (allGames, data);
+    }
+
+    private void SetGamesData((List<string>, List<(FileManager.GameRecord, string)>) fileData)
+    {
+        var allGames = fileData.Item1;
+        var data = fileData.Item2;
+
+        foreach (Transform child in contentGameObject.transform)
+        {
+            Destroy(child.gameObject);
         }
 
         if (allGames.Count == 0)
@@ -376,7 +412,7 @@ public class MainMenuButton : MonoBehaviour
                     gameName = gameName.Substring(0, 50); //Limit the game name to 50 characters
                 gameNameData.text = gameName;
 
-                game.name = gameName;
+                game.name = record.Item2;
 
                 TextMeshProUGUI resultData = game.transform.Find("Background/GameData/GameResult").gameObject.GetComponent<TextMeshProUGUI>();
                 string formatedResult;
@@ -419,7 +455,6 @@ public class MainMenuButton : MonoBehaviour
                 dateData.text = "Date: " + record.Item1.MetaData.date.ToString("dd/MM/yyyy");
             }
         }
-
     }
 
     private void HandleGamesButton()
@@ -429,7 +464,7 @@ public class MainMenuButton : MonoBehaviour
 
         StartCoroutine(StartGamesMenu());
 
-        ValidateFiles();
+        SetGamesData(ValidateFiles());
     }
 
     private void HandleAnimationsButton()
@@ -484,9 +519,90 @@ public class MainMenuButton : MonoBehaviour
         //Get parent of button, parent of button is same as file name, delete parent + delete file
     }
 
+    private FileManager.GameRecord GetGameFile(SceneManager.Scenes currentScene)
+    {
+        //editor_Group
+        string fileName = string.Empty;
+        var validatedFiles = ValidateFiles();
+
+
+        if (currentScene == SceneManager.Scenes.Chess2dVSFriend)
+        {
+            string folderPath = FileManager.Instance.pathToGamesDirectory;
+            var cleanFiles = validatedFiles.Item2; //Item2 is data
+
+            //Check for newest file
+            FileInfo newestFile = null;
+            foreach (var file in cleanFiles)
+            {
+                FileInfo fileInfo = new FileInfo(file.Item2); //Item2 is file path
+                if (newestFile == null || fileInfo.LastWriteTime > newestFile.LastWriteTime)
+                {
+                    newestFile = fileInfo;
+                }
+            }
+
+            if (newestFile != null)
+                fileName = newestFile.FullName;
+
+        }
+        else if (currentScene == SceneManager.Scenes.MainUI)
+        {
+            //gameObject is editor button
+            //FileName->Background->GamePreview->ButtonGroup->Editor
+            Transform current = gameObject.transform.parent;
+
+            while (current != null)
+            {
+                if (current.name == "Background")
+                {
+                    fileName = current.parent.gameObject.name; //Get file name
+                    break;
+                }
+                current = current.parent;
+            }
+            if (current == null) fileName = string.Empty;
+
+            var allGames = validatedFiles.Item1;
+            if (!allGames.Contains(fileName)) fileName = string.Empty;
+        }
+
+        if (string.IsNullOrWhiteSpace(fileName))
+        {
+            throw new FileNotFoundException("File not found! ", fileName);
+        }
+
+        //Get record from our file
+        var data = validatedFiles.Item2;
+        FileManager.GameRecord record = null;
+        foreach (var file in data)
+        {
+            if (file.Item2 == fileName)
+            {
+                record = file.Item1;
+                break;
+            }
+        }
+
+        return record;
+
+    }
+
     private void HandleEditorButton()
     {
+        Debug.Log("Starting on Editor button");
+        if (transition == null) return;
+        if (isAnimating) return;
 
+        //Check for scene
+        Scene scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+        SceneManager.Scenes currentScene = SceneManager.Instance.GetScene(scene.name);
+
+        FileManager.GameRecord record = GetGameFile(currentScene);
+
+        StartCoroutine(StartEditor(currentScene, record));
+
+        
     }
 
     private void HandleExitButton()

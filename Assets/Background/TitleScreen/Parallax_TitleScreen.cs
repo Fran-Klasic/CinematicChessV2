@@ -7,6 +7,11 @@ public class Parallax_TitleScreen : MonoBehaviour
     [SerializeField] private GameObject cam;
     [SerializeField] private float parallaxEffect;
 
+    private void Awake()
+    {
+        Application.runInBackground = true;
+    }
+
     void Start()
     {
         startPosition = transform.position.x;
