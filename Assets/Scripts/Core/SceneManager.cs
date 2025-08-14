@@ -10,6 +10,12 @@ public class SceneManager : MonoBehaviour
     public const string chess2dVSFriend = "Chess2dVSFriend";
 
     //Functions that handle scene switching
+
+    public void LoadScene(Scenes scene)
+    {
+        string sceneToLoad = GetSceneString(scene);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneToLoad, LoadSceneMode.Single);
+    }
     public void LoadMainUI()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(mainUI, LoadSceneMode.Single);
@@ -43,6 +49,18 @@ public class SceneManager : MonoBehaviour
         return Scenes.None;
     }
 
+    private string GetSceneString (Scenes scene)
+    {
+        switch (scene)
+        {
+            case Scenes.Chess2dVSFriend:
+                return chess2dVSFriend;
+            case Scenes.MainUI:
+                return mainUI;
+        }
+
+        return string.Empty;
+    }
 
     public static SceneManager Instance;
     //SceneManager.Instance.--- -> Singleton

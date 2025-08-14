@@ -258,7 +258,6 @@ public class ReplayManager : MonoBehaviour
         }
     }
 
-
     public IEnumerator StartReplayCoroutine(FileManager.GameRecord record)
     {
         isReplaying = true;

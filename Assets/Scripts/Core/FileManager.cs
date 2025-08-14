@@ -37,7 +37,7 @@ public class FileManager : MonoBehaviour
         public PieceColor pieceColor { get; set; }
         public SpecialMove specialMove { get; set; }
         public PieceType promotedInto { get; set; }
-        public float time { get; set; } 
+        public float time { get; set; }
         public bool hasCaptured { get; set; }
     }
 
@@ -48,12 +48,15 @@ public class FileManager : MonoBehaviour
         public int totalMoves { get; set; }
         public GameStateManager.End EndState { get; set; }
 
-        public MetaData(DateTime date, float totalTime, int totalMoves, GameStateManager.End endState)
+        public string gameFileName { get; set; }
+
+        public MetaData(DateTime date, float totalTime, int totalMoves, GameStateManager.End endState, string gameFileName)
         {
             this.date = date;
             this.totalTime = totalTime;
             this.totalMoves = totalMoves;
             EndState = endState;
+            this.gameFileName = gameFileName;
         }
     }
 
@@ -91,7 +94,7 @@ public class FileManager : MonoBehaviour
         UpdateTempGame();
     }
 
-    public void SaveHistoryToGames(GameStateManager.End endState, float time)
+    public GameRecord SaveHistoryToGames(GameStateManager.End endState, float time)
     {
         var settings = new JsonSerializerSettings
         {
@@ -101,11 +104,7 @@ public class FileManager : MonoBehaviour
 
         int totalMoves = History.Count;
 
-        MetaData metaData = new MetaData(DateTime.Now, time, totalMoves, endState);
-
-        GameRecord gameRecord = new GameRecord(History, metaData);
-
-        string gameData = JsonConvert.SerializeObject(gameRecord, settings);
+        GameRecord gameRecord = null;
 
         if (!string.IsNullOrEmpty(pathToGamesDirectory))
         {
@@ -118,7 +117,6 @@ public class FileManager : MonoBehaviour
             string path;
             string gameFileName = "Game.json";
 
-
             //Generate unique file
             while (true)
             {
@@ -130,6 +128,11 @@ public class FileManager : MonoBehaviour
                 counter++;
             }
 
+            MetaData metaData = new MetaData(DateTime.Now, time, totalMoves, endState, gameFileName);
+
+            gameRecord = new GameRecord(History, metaData);
+            string gameData = JsonConvert.SerializeObject(gameRecord, settings);
+
             try
             {
                 File.WriteAllText(path, gameData);
@@ -140,6 +143,7 @@ public class FileManager : MonoBehaviour
             }
         }
 
+        return gameRecord;
     }
 
     private void UpdateTempGame()
@@ -203,6 +207,8 @@ public class FileManager : MonoBehaviour
         if (!Directory.Exists(pathToPlayerDirectory))
             Directory.CreateDirectory(pathToPlayerDirectory);
     }
+
+
 
 
     public static FileManager Instance;

@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 18468153}
   - component: {fileID: 18468152}
   - component: {fileID: 18468151}
-  - component: {fileID: 18468150}
+  - component: {fileID: 18468154}
   m_Layer: 5
   m_Name: CloseMenu
   m_TagString: Untagged
@@ -158,33 +158,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 932.62, y: 518}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &18468150
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 18468148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d3ff9bbae336bb409414499ef975727, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playMenuAnimator: {fileID: 890112007}
-  playMenuGroup: {fileID: 890112004}
-  contentGameObject: {fileID: 0}
-  gamePrefab: {fileID: 0}
-  gamePrefab_None: {fileID: 0}
-  gameEndCanvasAnimator: {fileID: 0}
-  gameEndCanvas: {fileID: 0}
-  transition: {fileID: 0}
-  titleScreen_Group: {fileID: 0}
-  games_Group: {fileID: 0}
-  animations_Group: {fileID: 0}
-  favorites_Group: {fileID: 0}
-  options_Group: {fileID: 0}
-  credits_Group: {fileID: 0}
-  editor_Group: {fileID: 0}
 --- !u!114 &18468151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,8 +202,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 18468150}
-        m_TargetAssemblyTypeName: MainMenuButton, Assembly-CSharp
+      - m_Target: {fileID: 18468154}
+        m_TargetAssemblyTypeName: MainUI_CloseMenu, Assembly-CSharp
         m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
@@ -279,6 +252,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 18468148}
   m_CullTransparentMesh: 1
+--- !u!114 &18468154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18468148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ed370201c6dc504dbbbe400f3c611bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playMenuAnimator: {fileID: 890112007}
+  playMenuGroup: {fileID: 890112004}
 --- !u!1 &74553273
 GameObject:
   m_ObjectHideFlags: 0
@@ -527,21 +514,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d3ff9bbae336bb409414499ef975727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playMenuAnimator: {fileID: 0}
-  playMenuGroup: {fileID: 0}
-  contentGameObject: {fileID: 0}
-  gamePrefab: {fileID: 0}
-  gamePrefab_None: {fileID: 0}
-  gameEndCanvasAnimator: {fileID: 0}
-  gameEndCanvas: {fileID: 0}
-  transition: {fileID: 120959534}
-  titleScreen_Group: {fileID: 0}
-  games_Group: {fileID: 0}
-  animations_Group: {fileID: 0}
-  favorites_Group: {fileID: 0}
-  options_Group: {fileID: 0}
-  credits_Group: {fileID: 0}
-  editor_Group: {fileID: 0}
 --- !u!1 &98211954
 GameObject:
   m_ObjectHideFlags: 0
@@ -1775,7 +1747,6 @@ GameObject:
   - component: {fileID: 422680818}
   - component: {fileID: 422680817}
   - component: {fileID: 422680816}
-  - component: {fileID: 422680815}
   m_Layer: 5
   m_Name: Exit
   m_TagString: Untagged
@@ -1803,33 +1774,6 @@ RectTransform:
   m_AnchoredPosition: {x: 279.40317, y: 168.5}
   m_SizeDelta: {x: 91.1936, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &422680815
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 422680813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d3ff9bbae336bb409414499ef975727, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playMenuAnimator: {fileID: 0}
-  playMenuGroup: {fileID: 0}
-  contentGameObject: {fileID: 0}
-  gamePrefab: {fileID: 0}
-  gamePrefab_None: {fileID: 0}
-  gameEndCanvasAnimator: {fileID: 0}
-  gameEndCanvas: {fileID: 0}
-  transition: {fileID: 0}
-  titleScreen_Group: {fileID: 0}
-  games_Group: {fileID: 0}
-  animations_Group: {fileID: 0}
-  favorites_Group: {fileID: 0}
-  options_Group: {fileID: 0}
-  credits_Group: {fileID: 0}
-  editor_Group: {fileID: 0}
 --- !u!95 &422680816
 Animator:
   serializedVersion: 7
@@ -1896,7 +1840,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 422680815}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MainMenuButton, Assembly-CSharp
         m_MethodName: OnClick
         m_Mode: 1
@@ -2040,7 +1984,6 @@ GameObject:
   - component: {fileID: 507168296}
   - component: {fileID: 507168295}
   - component: {fileID: 507168294}
-  - component: {fileID: 507168293}
   m_Layer: 5
   m_Name: PlayBotButton
   m_TagString: Untagged
@@ -2068,33 +2011,6 @@ RectTransform:
   m_AnchoredPosition: {x: 104.11334, y: -120.73515}
   m_SizeDelta: {x: 208.22668, y: 64.2301}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &507168293
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 507168291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d3ff9bbae336bb409414499ef975727, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playMenuAnimator: {fileID: 0}
-  playMenuGroup: {fileID: 0}
-  contentGameObject: {fileID: 0}
-  gamePrefab: {fileID: 0}
-  gamePrefab_None: {fileID: 0}
-  gameEndCanvasAnimator: {fileID: 0}
-  gameEndCanvas: {fileID: 0}
-  transition: {fileID: 120959534}
-  titleScreen_Group: {fileID: 0}
-  games_Group: {fileID: 0}
-  animations_Group: {fileID: 0}
-  favorites_Group: {fileID: 0}
-  options_Group: {fileID: 0}
-  credits_Group: {fileID: 0}
-  editor_Group: {fileID: 0}
 --- !u!95 &507168294
 Animator:
   serializedVersion: 7
@@ -2161,9 +2077,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 507168293}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MainMenuButton, Assembly-CSharp
-        m_MethodName: OnClick
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2692,6 +2608,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4854326911960625374, guid: 52dbd9b927c0f3343b30cd0b06569162, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 690873778}
+    - target: {fileID: 4854326911960625374, guid: 52dbd9b927c0f3343b30cd0b06569162, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 4854326911960625374, guid: 52dbd9b927c0f3343b30cd0b06569162, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GamesUI_Editor, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 4898416955905442800, guid: 52dbd9b927c0f3343b30cd0b06569162, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2836,6 +2764,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7992686170357634642, guid: 52dbd9b927c0f3343b30cd0b06569162, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8864653406909648480, guid: 52dbd9b927c0f3343b30cd0b06569162, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2856,11 +2788,36 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6006979354011606099, guid: 52dbd9b927c0f3343b30cd0b06569162, type: 3}
+    - {fileID: 6878520820396250769, guid: 52dbd9b927c0f3343b30cd0b06569162, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8897962454403397033, guid: 52dbd9b927c0f3343b30cd0b06569162, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 690873778}
   m_SourcePrefab: {fileID: 100100000, guid: 52dbd9b927c0f3343b30cd0b06569162, type: 3}
+--- !u!1 &690873777 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8897962454403397033, guid: 52dbd9b927c0f3343b30cd0b06569162, type: 3}
+  m_PrefabInstance: {fileID: 690873776}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &690873778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 690873777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce5c5e4f4e1eb34fbd4e1d792448f7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transition: {fileID: 120959534}
+  games_Group: {fileID: 1018250513}
+  editor_Group: {fileID: 1339369107}
 --- !u!1 &710893606
 GameObject:
   m_ObjectHideFlags: 0
@@ -3150,7 +3107,6 @@ GameObject:
   - component: {fileID: 732825189}
   - component: {fileID: 732825188}
   - component: {fileID: 732825192}
-  - component: {fileID: 732825191}
   m_Layer: 5
   m_Name: Delete
   m_TagString: Untagged
@@ -3222,7 +3178,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 732825191}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MainMenuButton, Assembly-CSharp
         m_MethodName: OnClick
         m_Mode: 1
@@ -3272,33 +3228,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 732825186}
   m_CullTransparentMesh: 1
---- !u!114 &732825191
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 732825186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d3ff9bbae336bb409414499ef975727, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playMenuAnimator: {fileID: 0}
-  playMenuGroup: {fileID: 0}
-  contentGameObject: {fileID: 0}
-  gamePrefab: {fileID: 0}
-  gamePrefab_None: {fileID: 0}
-  gameEndCanvasAnimator: {fileID: 0}
-  gameEndCanvas: {fileID: 0}
-  transition: {fileID: 0}
-  titleScreen_Group: {fileID: 0}
-  games_Group: {fileID: 0}
-  animations_Group: {fileID: 0}
-  favorites_Group: {fileID: 0}
-  options_Group: {fileID: 0}
-  credits_Group: {fileID: 0}
-  editor_Group: {fileID: 0}
 --- !u!95 &732825192
 Animator:
   serializedVersion: 7
@@ -3901,21 +3830,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d3ff9bbae336bb409414499ef975727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playMenuAnimator: {fileID: 0}
-  playMenuGroup: {fileID: 0}
-  contentGameObject: {fileID: 0}
-  gamePrefab: {fileID: 0}
-  gamePrefab_None: {fileID: 0}
-  gameEndCanvasAnimator: {fileID: 0}
-  gameEndCanvas: {fileID: 0}
-  transition: {fileID: 120959534}
-  titleScreen_Group: {fileID: 0}
-  games_Group: {fileID: 0}
-  animations_Group: {fileID: 0}
-  favorites_Group: {fileID: 0}
-  options_Group: {fileID: 0}
-  credits_Group: {fileID: 0}
-  editor_Group: {fileID: 0}
 --- !u!1 &812018469
 GameObject:
   m_ObjectHideFlags: 0
@@ -4274,7 +4188,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 857774782}
-        m_TargetAssemblyTypeName: MainMenuButton, Assembly-CSharp
+        m_TargetAssemblyTypeName: MainUI_Quit, Assembly-CSharp
         m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
@@ -4354,24 +4268,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 857774776}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d3ff9bbae336bb409414499ef975727, type: 3}
+  m_Script: {fileID: 11500000, guid: e7150c3cdadb6a14b907c7ad2c7b143d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playMenuAnimator: {fileID: 0}
-  playMenuGroup: {fileID: 0}
-  contentGameObject: {fileID: 0}
-  gamePrefab: {fileID: 0}
-  gamePrefab_None: {fileID: 0}
-  gameEndCanvasAnimator: {fileID: 0}
-  gameEndCanvas: {fileID: 0}
   transition: {fileID: 120959534}
-  titleScreen_Group: {fileID: 0}
-  games_Group: {fileID: 0}
-  animations_Group: {fileID: 0}
-  favorites_Group: {fileID: 0}
-  options_Group: {fileID: 0}
-  credits_Group: {fileID: 0}
-  editor_Group: {fileID: 0}
 --- !u!1 &864363620
 GameObject:
   m_ObjectHideFlags: 0
@@ -4940,7 +4840,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 969771002}
-        m_TargetAssemblyTypeName: MainMenuButton, Assembly-CSharp
+        m_TargetAssemblyTypeName: MainUI_Games, Assembly-CSharp
         m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
@@ -5020,24 +4920,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 969770996}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d3ff9bbae336bb409414499ef975727, type: 3}
+  m_Script: {fileID: 11500000, guid: 6e7a7d8320207be4fbe1ea8352c326b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playMenuAnimator: {fileID: 0}
-  playMenuGroup: {fileID: 0}
-  contentGameObject: {fileID: 2076747910}
-  gamePrefab: {fileID: 389221259}
-  gamePrefab_None: {fileID: 617439984063162436, guid: dea62305ad30366419d34287d9ca1a7d, type: 3}
-  gameEndCanvasAnimator: {fileID: 0}
-  gameEndCanvas: {fileID: 0}
   transition: {fileID: 120959534}
   titleScreen_Group: {fileID: 243134400}
   games_Group: {fileID: 1018250513}
-  animations_Group: {fileID: 0}
-  favorites_Group: {fileID: 0}
-  options_Group: {fileID: 0}
-  credits_Group: {fileID: 0}
-  editor_Group: {fileID: 0}
+  contentGameObject: {fileID: 2076747910}
+  gamePrefab_None: {fileID: 617439984063162436, guid: dea62305ad30366419d34287d9ca1a7d, type: 3}
+  gamePrefab: {fileID: 389221259}
 --- !u!1 &970005679
 GameObject:
   m_ObjectHideFlags: 0
@@ -6221,7 +6112,6 @@ GameObject:
   - component: {fileID: 1339282991}
   - component: {fileID: 1339282990}
   - component: {fileID: 1339282994}
-  - component: {fileID: 1339282993}
   m_Layer: 5
   m_Name: MoveToAnimationSettings
   m_TagString: Untagged
@@ -6293,7 +6183,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1339282993}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MainMenuButton, Assembly-CSharp
         m_MethodName: OnClick
         m_Mode: 1
@@ -6343,33 +6233,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1339282988}
   m_CullTransparentMesh: 1
---- !u!114 &1339282993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1339282988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d3ff9bbae336bb409414499ef975727, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playMenuAnimator: {fileID: 0}
-  playMenuGroup: {fileID: 0}
-  contentGameObject: {fileID: 0}
-  gamePrefab: {fileID: 0}
-  gamePrefab_None: {fileID: 0}
-  gameEndCanvasAnimator: {fileID: 0}
-  gameEndCanvas: {fileID: 0}
-  transition: {fileID: 0}
-  titleScreen_Group: {fileID: 0}
-  games_Group: {fileID: 0}
-  animations_Group: {fileID: 0}
-  favorites_Group: {fileID: 0}
-  options_Group: {fileID: 0}
-  credits_Group: {fileID: 0}
-  editor_Group: {fileID: 0}
 --- !u!95 &1339282994
 Animator:
   serializedVersion: 7
@@ -6441,7 +6304,7 @@ GameObject:
   - component: {fileID: 1350703131}
   - component: {fileID: 1350703130}
   - component: {fileID: 1350703129}
-  - component: {fileID: 1350703128}
+  - component: {fileID: 1350703133}
   m_Layer: 5
   m_Name: PlayFriendButton
   m_TagString: Untagged
@@ -6469,33 +6332,6 @@ RectTransform:
   m_AnchoredPosition: {x: 104.11334, y: -42.11505}
   m_SizeDelta: {x: 208.22668, y: 64.2301}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1350703128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350703126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d3ff9bbae336bb409414499ef975727, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playMenuAnimator: {fileID: 0}
-  playMenuGroup: {fileID: 0}
-  contentGameObject: {fileID: 0}
-  gamePrefab: {fileID: 0}
-  gamePrefab_None: {fileID: 0}
-  gameEndCanvasAnimator: {fileID: 0}
-  gameEndCanvas: {fileID: 0}
-  transition: {fileID: 120959534}
-  titleScreen_Group: {fileID: 0}
-  games_Group: {fileID: 0}
-  animations_Group: {fileID: 0}
-  favorites_Group: {fileID: 0}
-  options_Group: {fileID: 0}
-  credits_Group: {fileID: 0}
-  editor_Group: {fileID: 0}
 --- !u!95 &1350703129
 Animator:
   serializedVersion: 7
@@ -6562,8 +6398,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1350703128}
-        m_TargetAssemblyTypeName: MainMenuButton, Assembly-CSharp
+      - m_Target: {fileID: 1350703133}
+        m_TargetAssemblyTypeName: MainUI_PlayVSFriend, Assembly-CSharp
         m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
@@ -6612,6 +6448,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1350703126}
   m_CullTransparentMesh: 1
+--- !u!114 &1350703133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1350703126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d91fb913ca81cf64885cfbd4be2452b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transition: {fileID: 120959534}
 --- !u!1 &1375464494
 GameObject:
   m_ObjectHideFlags: 0
@@ -6900,7 +6749,7 @@ GameObject:
   - component: {fileID: 1434859228}
   - component: {fileID: 1434859227}
   - component: {fileID: 1434859226}
-  - component: {fileID: 1434859225}
+  - component: {fileID: 1434859230}
   m_Layer: 5
   m_Name: Exit
   m_TagString: Untagged
@@ -6928,33 +6777,6 @@ RectTransform:
   m_AnchoredPosition: {x: 215.83, y: 380.08}
   m_SizeDelta: {x: -681.6604, y: 32.502}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1434859225
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1434859223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d3ff9bbae336bb409414499ef975727, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playMenuAnimator: {fileID: 0}
-  playMenuGroup: {fileID: 0}
-  contentGameObject: {fileID: 0}
-  gamePrefab: {fileID: 0}
-  gamePrefab_None: {fileID: 0}
-  gameEndCanvasAnimator: {fileID: 0}
-  gameEndCanvas: {fileID: 0}
-  transition: {fileID: 120959534}
-  titleScreen_Group: {fileID: 243134400}
-  games_Group: {fileID: 1018250513}
-  animations_Group: {fileID: 755646077}
-  favorites_Group: {fileID: 561213108}
-  options_Group: {fileID: 563414143}
-  credits_Group: {fileID: 1095375897}
-  editor_Group: {fileID: 0}
 --- !u!95 &1434859226
 Animator:
   serializedVersion: 7
@@ -7021,8 +6843,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1434859225}
-        m_TargetAssemblyTypeName: MainMenuButton, Assembly-CSharp
+      - m_Target: {fileID: 1434859230}
+        m_TargetAssemblyTypeName: GamesUI_Exit, Assembly-CSharp
         m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
@@ -7071,6 +6893,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1434859223}
   m_CullTransparentMesh: 1
+--- !u!114 &1434859230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1434859223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31ab6ec1afc64a04f95ad678a7819a14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transition: {fileID: 120959534}
+  games_Group: {fileID: 1018250513}
+  titleScreen_Group: {fileID: 243134400}
 --- !u!1 &1440527484
 GameObject:
   m_ObjectHideFlags: 0
@@ -7240,21 +7077,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d3ff9bbae336bb409414499ef975727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playMenuAnimator: {fileID: 0}
-  playMenuGroup: {fileID: 0}
-  contentGameObject: {fileID: 0}
-  gamePrefab: {fileID: 0}
-  gamePrefab_None: {fileID: 0}
-  gameEndCanvasAnimator: {fileID: 0}
-  gameEndCanvas: {fileID: 0}
-  transition: {fileID: 120959534}
-  titleScreen_Group: {fileID: 0}
-  games_Group: {fileID: 0}
-  animations_Group: {fileID: 0}
-  favorites_Group: {fileID: 0}
-  options_Group: {fileID: 0}
-  credits_Group: {fileID: 0}
-  editor_Group: {fileID: 0}
+--- !u!1 &1478176760
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1478176762}
+  - component: {fileID: 1478176761}
+  m_Layer: 0
+  m_Name: MainController_Persist
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1478176761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1478176760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 069b6b1da8ba0b04cbb44ca95d2568cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlayMenuActive: 0
+  isAnimating: 0
+  universalTransitionTime: 1
+--- !u!4 &1478176762
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1478176760}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1519575770
 GameObject:
   m_ObjectHideFlags: 0
@@ -7406,7 +7275,6 @@ GameObject:
   - component: {fileID: 1524522611}
   - component: {fileID: 1524522610}
   - component: {fileID: 1524522613}
-  - component: {fileID: 1524522614}
   m_Layer: 5
   m_Name: Animations_Button
   m_TagString: Untagged
@@ -7478,13 +7346,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1524522614}
-        m_TargetAssemblyTypeName: MainMenuButton, Assembly-CSharp
-        m_MethodName: OnClick
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -7550,33 +7418,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1524522614
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1524522608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d3ff9bbae336bb409414499ef975727, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playMenuAnimator: {fileID: 0}
-  playMenuGroup: {fileID: 0}
-  contentGameObject: {fileID: 0}
-  gamePrefab: {fileID: 0}
-  gamePrefab_None: {fileID: 0}
-  gameEndCanvasAnimator: {fileID: 0}
-  gameEndCanvas: {fileID: 0}
-  transition: {fileID: 120959534}
-  titleScreen_Group: {fileID: 0}
-  games_Group: {fileID: 0}
-  animations_Group: {fileID: 0}
-  favorites_Group: {fileID: 0}
-  options_Group: {fileID: 0}
-  credits_Group: {fileID: 0}
-  editor_Group: {fileID: 0}
 --- !u!1 &1533647398
 GameObject:
   m_ObjectHideFlags: 0
@@ -8044,7 +7885,6 @@ GameObject:
   - component: {fileID: 1609649041}
   - component: {fileID: 1609649040}
   - component: {fileID: 1609649044}
-  - component: {fileID: 1609649043}
   m_Layer: 5
   m_Name: Random
   m_TagString: Untagged
@@ -8116,7 +7956,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1609649043}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MainMenuButton, Assembly-CSharp
         m_MethodName: OnClick
         m_Mode: 1
@@ -8166,33 +8006,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1609649038}
   m_CullTransparentMesh: 1
---- !u!114 &1609649043
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1609649038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d3ff9bbae336bb409414499ef975727, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playMenuAnimator: {fileID: 0}
-  playMenuGroup: {fileID: 0}
-  contentGameObject: {fileID: 0}
-  gamePrefab: {fileID: 0}
-  gamePrefab_None: {fileID: 0}
-  gameEndCanvasAnimator: {fileID: 0}
-  gameEndCanvas: {fileID: 0}
-  transition: {fileID: 0}
-  titleScreen_Group: {fileID: 0}
-  games_Group: {fileID: 0}
-  animations_Group: {fileID: 0}
-  favorites_Group: {fileID: 0}
-  options_Group: {fileID: 0}
-  credits_Group: {fileID: 0}
-  editor_Group: {fileID: 0}
 --- !u!95 &1609649044
 Animator:
   serializedVersion: 7
@@ -8782,21 +8595,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d3ff9bbae336bb409414499ef975727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playMenuAnimator: {fileID: 0}
-  playMenuGroup: {fileID: 0}
-  contentGameObject: {fileID: 2076747910}
-  gamePrefab: {fileID: 617439984063162436, guid: 52dbd9b927c0f3343b30cd0b06569162, type: 3}
-  gamePrefab_None: {fileID: 617439984063162436, guid: dea62305ad30366419d34287d9ca1a7d, type: 3}
-  gameEndCanvasAnimator: {fileID: 0}
-  gameEndCanvas: {fileID: 0}
-  transition: {fileID: 0}
-  titleScreen_Group: {fileID: 0}
-  games_Group: {fileID: 0}
-  animations_Group: {fileID: 0}
-  favorites_Group: {fileID: 0}
-  options_Group: {fileID: 0}
-  credits_Group: {fileID: 0}
-  editor_Group: {fileID: 0}
 --- !u!1 &1730591579
 GameObject:
   m_ObjectHideFlags: 0
@@ -9019,7 +8817,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1794984381}
-        m_TargetAssemblyTypeName: MainMenuButton, Assembly-CSharp
+        m_TargetAssemblyTypeName: MainUI_Play, Assembly-CSharp
         m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
@@ -9099,24 +8897,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1794984375}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d3ff9bbae336bb409414499ef975727, type: 3}
+  m_Script: {fileID: 11500000, guid: 670df7dd477787e46bcc0d572f9cfff2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playMenuAnimator: {fileID: 890112007}
+  playMenuAnimator: {fileID: 1794984380}
   playMenuGroup: {fileID: 890112004}
-  contentGameObject: {fileID: 0}
-  gamePrefab: {fileID: 0}
-  gamePrefab_None: {fileID: 0}
-  gameEndCanvasAnimator: {fileID: 0}
-  gameEndCanvas: {fileID: 0}
-  transition: {fileID: 120959534}
-  titleScreen_Group: {fileID: 0}
-  games_Group: {fileID: 0}
-  animations_Group: {fileID: 0}
-  favorites_Group: {fileID: 0}
-  options_Group: {fileID: 0}
-  credits_Group: {fileID: 0}
-  editor_Group: {fileID: 0}
 --- !u!1 &1826599290
 GameObject:
   m_ObjectHideFlags: 0
@@ -10000,6 +9785,7 @@ SceneRoots:
   - {fileID: 1375464496}
   - {fileID: 966240709}
   - {fileID: 1586653015}
+  - {fileID: 1478176762}
   - {fileID: 113784334}
   - {fileID: 74553276}
   - {fileID: 1826599292}
