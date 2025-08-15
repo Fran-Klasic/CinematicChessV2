@@ -26,13 +26,11 @@ public class GamesUI_Exit : MonoBehaviour
         transition.SetTrigger("Out");
         yield return new WaitForSeconds(MainController.Instance.universalTransitionTime);
 
-        titleScreen_Group.SetActive(true);
 
         MainController.Instance.isAnimating = false;
-        games_Group.SetActive(false);
 
-        transition.SetTrigger("In");
-        yield return new WaitForSeconds(MainController.Instance.universalTransitionTime);
+        //Due to button animations and OnClick bugs the only way to load TitleScreen is to reload the entire scene ):
+        SceneManager.Instance.LoadMainUI();
     }
 
 }

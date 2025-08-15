@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class MainUI_Play : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class MainUI_Play : MonoBehaviour
 
         if (!MainController.Instance.isPlayMenuActive)
             StartCoroutine(StartPlayMenu());
-        else
+        //else
             //StartCoroutine(EndPlayMenu());
 
         //Animator will try to change state into selected

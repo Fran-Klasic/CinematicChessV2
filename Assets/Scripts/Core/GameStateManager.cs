@@ -161,6 +161,9 @@ public class GameStateManager : MonoBehaviour
         GameState = State.Playing;
         EndState = End.None;
 
+        //History Clearing
+        FileManager.Instance.History.Clear();
+
         if (Instance == null)
         {
             Instance = this;
@@ -170,7 +173,6 @@ public class GameStateManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
     public void SwitchTurn()
     {
         CurrentTurn = (CurrentTurn == PieceColor.White) ? PieceColor.Black : PieceColor.White;

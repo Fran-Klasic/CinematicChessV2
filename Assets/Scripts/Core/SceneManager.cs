@@ -31,7 +31,7 @@ public class SceneManager : MonoBehaviour
         //Overlay Menu over current scene
     }
 
-    public void UnloadMenu()
+    public void ResetGame()
     {
 
     }

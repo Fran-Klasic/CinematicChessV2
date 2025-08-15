@@ -9,12 +9,17 @@ using System.Linq;
 using System.Collections;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class MainController : MonoBehaviour
 {
     [HideInInspector] public bool isPlayMenuActive = false;
     [HideInInspector] public bool isAnimating = false; //value to check if an animation is playing before it plays a different animation
     [HideInInspector] public float universalTransitionTime = 1f; //animation length for every transition
+    [HideInInspector] public bool hasCanceled = false;
+    [HideInInspector] public bool hasDeleted = false;
+
 
     #region Helper Functions
     public (List<string>, List<(FileManager.GameRecord, string)>) ValidateFiles()
@@ -233,18 +238,4 @@ public class MainController : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    //   TODO:
-    //Button:
-    //Animations
-    //Favorites
-    //Options
-    //Credits
-    //PlayVSBot
-    //EditorExit
-    //GamesDelete
-    //EditorDelete
-    //EditorRandomize
-    //EditorMoveToAnimationSettings
-    //Chess2dExit
 }
