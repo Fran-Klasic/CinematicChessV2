@@ -243,7 +243,6 @@ GameObject:
   - component: {fileID: 6446431323543743266}
   - component: {fileID: 7992686170357634642}
   - component: {fileID: 2881072632656014319}
-  - component: {fileID: 6006979354011606099}
   m_Layer: 5
   m_Name: Delete
   m_TagString: Untagged
@@ -352,19 +351,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6446431323543743266}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6006979354011606099}
-        m_TargetAssemblyTypeName: MainMenuButton, Assembly-CSharp
-        m_MethodName: OnClick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &2881072632656014319
 Animator:
   serializedVersion: 7
@@ -387,33 +374,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6006979354011606099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2537550809817031434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d3ff9bbae336bb409414499ef975727, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playMenuAnimator: {fileID: 0}
-  playMenuGroup: {fileID: 0}
-  contentGameObject: {fileID: 0}
-  gamePrefab: {fileID: 0}
-  gamePrefab_None: {fileID: 0}
-  gameEndCanvasAnimator: {fileID: 0}
-  gameEndCanvas: {fileID: 0}
-  transition: {fileID: 0}
-  titleScreen_Group: {fileID: 0}
-  games_Group: {fileID: 0}
-  animations_Group: {fileID: 0}
-  favorites_Group: {fileID: 0}
-  options_Group: {fileID: 0}
-  credits_Group: {fileID: 0}
-  editor_Group: {fileID: 0}
 --- !u!1 &2584735556752652711
 GameObject:
   m_ObjectHideFlags: 0
@@ -1574,7 +1534,6 @@ GameObject:
   - component: {fileID: 8396069016411610524}
   - component: {fileID: 4854326911960625374}
   - component: {fileID: 3001003465880108817}
-  - component: {fileID: 6878520820396250769}
   m_Layer: 5
   m_Name: Editor
   m_TagString: Untagged
@@ -1683,19 +1642,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8396069016411610524}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6878520820396250769}
-        m_TargetAssemblyTypeName: MainMenuButton, Assembly-CSharp
-        m_MethodName: OnClick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &3001003465880108817
 Animator:
   serializedVersion: 7
@@ -1718,33 +1665,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6878520820396250769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8897962454403397033}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d3ff9bbae336bb409414499ef975727, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playMenuAnimator: {fileID: 0}
-  playMenuGroup: {fileID: 0}
-  contentGameObject: {fileID: 0}
-  gamePrefab: {fileID: 0}
-  gamePrefab_None: {fileID: 0}
-  gameEndCanvasAnimator: {fileID: 0}
-  gameEndCanvas: {fileID: 0}
-  transition: {fileID: 0}
-  titleScreen_Group: {fileID: 0}
-  games_Group: {fileID: 0}
-  animations_Group: {fileID: 0}
-  favorites_Group: {fileID: 0}
-  options_Group: {fileID: 0}
-  credits_Group: {fileID: 0}
-  editor_Group: {fileID: 0}
 --- !u!1 &9100095322230000813
 GameObject:
   m_ObjectHideFlags: 0

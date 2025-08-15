@@ -8,6 +8,13 @@ public class MainUI_Play : MonoBehaviour
     [SerializeField] private Animator playMenuAnimator;
     [SerializeField] private GameObject playMenuGroup;
 
+    void OnEnable()
+    {
+        Button btn = GetComponent<Button>();
+        btn.onClick.RemoveAllListeners();
+        btn.onClick.AddListener(OnClick);
+    }
+
     public void OnClick()
     {
         if (playMenuAnimator == null) return;

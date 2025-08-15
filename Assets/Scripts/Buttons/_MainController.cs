@@ -218,6 +218,8 @@ public class MainController : MonoBehaviour
     {
         temp = isAnimating;
 
+        EventSystem.current.SetSelectedGameObject(null);
+
         //Helps with stuttering on first time validating
         ValidateFiles();
     }
@@ -230,8 +232,6 @@ public class MainController : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            //Will persist always
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
