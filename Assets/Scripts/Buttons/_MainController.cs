@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class MainController : MonoBehaviour
 {
@@ -107,6 +108,7 @@ public class MainController : MonoBehaviour
 
         bool found1 = false;
         bool found2 = false;
+        GameObject editor_Group = null;
 
         foreach (Transform child in allChildren)
         {
@@ -121,10 +123,69 @@ public class MainController : MonoBehaviour
             {
                 child.gameObject.SetActive(true);
                 found2 = true;
+                editor_Group = child.gameObject;
             }
         }
 
         ReplayManager.Instance.record = record;
+        InitialzeEditor(record, editor_Group);
+
+    }
+
+    public void InitialzeEditor(FileManager.GameRecord record, GameObject editor_Group)
+    {
+        #region Name Parsing
+        TextMeshProUGUI gameTitle = editor_Group.transform.Find("Background/GameTitle").gameObject.GetComponent<TextMeshProUGUI>();
+        gameTitle.text = Path.GetFileNameWithoutExtension(record.MetaData.gameFileName);
+        #endregion
+
+        #region Result Parsing
+        TextMeshProUGUI result = editor_Group.transform.Find("Background/GameData/Result").gameObject.GetComponent<TextMeshProUGUI>();
+        string formatedResult;
+        switch (record.MetaData.EndState)
+        {
+            case GameStateManager.End.BlackWon:
+                formatedResult = "Black Won!!!";
+                break;
+            case GameStateManager.End.WhiteWon:
+                formatedResult = "White Won!!!";
+                break;
+            case GameStateManager.End.Draw:
+                formatedResult = "Draw!!!";
+                break;
+            default:
+                formatedResult = "null";
+                break;
+        }
+        result.text = "Result: " + formatedResult;
+        #endregion
+
+        #region Time Parsing
+        TextMeshProUGUI gameTimeData = editor_Group.transform.Find("Background/GameData/TotalTime").gameObject.GetComponent<TextMeshProUGUI>();
+        float seconds = record.MetaData.totalTime;
+        TimeSpan timeSpan = TimeSpan.FromSeconds(seconds);
+
+        string formatedTime;
+
+        if (timeSpan.Hours > 0)
+            formatedTime = $"{timeSpan.Hours}h {timeSpan.Minutes}min {timeSpan.Seconds}sec";
+        else if (timeSpan.Minutes > 0)
+            formatedTime = $"{timeSpan.Minutes}min {timeSpan.Seconds}sec";
+        else
+            formatedTime = $"{timeSpan.Seconds}sec";
+
+        gameTimeData.text = "Time: " + formatedTime;
+        #endregion
+
+        #region Moves Parsing
+        TextMeshProUGUI totalMovesData = editor_Group.transform.Find("Background/GameData/TotalMoves").gameObject.GetComponent<TextMeshProUGUI>();
+        totalMovesData.text = "Total Moves: " + record.MetaData.totalMoves.ToString();
+        #endregion
+
+        #region Date Parsing
+        TextMeshProUGUI dateData = editor_Group.transform.Find("Background/GameData/Date").gameObject.GetComponent<TextMeshProUGUI>();
+        dateData.text = "Date: " + record.MetaData.date.ToString("dd/MM/yyyy");
+        #endregion
     }
 
     #endregion
@@ -140,7 +201,7 @@ public class MainController : MonoBehaviour
     bool temp;
     private void Update()
     {
-        if(isAnimating != temp)
+        if (isAnimating != temp)
         {
             temp = isAnimating;
             Debug.Log($"isAnimating value: {isAnimating}");

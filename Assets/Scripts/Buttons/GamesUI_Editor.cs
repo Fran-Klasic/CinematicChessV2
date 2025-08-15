@@ -19,6 +19,7 @@ public class GamesUI_Editor : MonoBehaviour
 
         StartCoroutine(StartEditor(record));
 
+
         //Animator will try to change state into selected
         //Unselect button from the animator
         EventSystem.current.SetSelectedGameObject(null);
@@ -33,6 +34,8 @@ public class GamesUI_Editor : MonoBehaviour
 
         games_Group.SetActive(false);
         editor_Group.SetActive(true);
+
+        MainController.Instance.InitialzeEditor(record, editor_Group);
 
         ReplayManager.Instance.record = record;
 

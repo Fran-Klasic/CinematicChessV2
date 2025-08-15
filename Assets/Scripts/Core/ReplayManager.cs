@@ -286,66 +286,9 @@ public class ReplayManager : MonoBehaviour
                 yield return StartCoroutine(MovePiecePromotion(fromV2Int, toV2Int, pieceColor, promotedInto, selectedPiece));
         }
 
+        yield return new WaitForSeconds(2f);
+
         ResetBoard();
         isReplaying = false;
     }
-
-
-    //public void StartReplay(FileManager.GameRecord record)
-    //{
-    //    //Read History, and replay
-    //    //gameObject is GamePreview
-
-    //    //public ChessPosition from { get; set; }
-    //    //public ChessPosition to { get; set; }
-    //    //public PieceType pieceType { get; set; }
-    //    //public PieceColor pieceColor { get; set; }
-    //    //public SpecialMove specialMove { get; set; }
-    //    //public PieceType promotedInto { get; set; }
-    //    //public bool hasCaptured { get; set; } 
-
-    //    if (isWaiting) return;
-
-    //    isReplaying = true;
-    //    var history = record.History;
-
-    //    for (int i = 0; i < history.Count; i++)
-    //    {
-    //        var from = history[i].from;
-    //        Vector2Int fromV2Int = new Vector2Int(from.x, from.y);
-    //        var to = history[i].to;
-    //        Vector2Int toV2Int = new Vector2Int(to.x, to.y);
-    //        var promotedInto = history[i].promotedInto;
-
-    //        var pieceColor = history[i].pieceColor;
-    //        var specialMove = history[i].specialMove;
-
-    //        //Get selected piece
-    //        GameObject selectedPiece = PiecesPreviewGenerator.Instance.pieceInfo[fromV2Int];
-
-    //        isWaiting = true;
-    //        StartCoroutine(WaitForSeconds(duration));
-
-    //        if (specialMove == FileManager.SpecialMove.None)
-    //        {
-    //            StartCoroutine(MovePiece(fromV2Int, toV2Int, selectedPiece));
-    //        }
-    //        if (specialMove == FileManager.SpecialMove.EnPassant)
-    //        {
-    //            StartCoroutine(MovePieceEnPassant(fromV2Int, toV2Int, pieceColor, selectedPiece));
-    //        }
-    //        if (specialMove == FileManager.SpecialMove.Castle)
-    //        {
-    //            StartCoroutine(MovePieceCastling(fromV2Int, toV2Int, pieceColor, selectedPiece));
-    //        }
-    //        if (specialMove == FileManager.SpecialMove.Promotion)
-    //        {
-    //            StartCoroutine(MovePiecePromotion(fromV2Int, toV2Int, pieceColor, promotedInto, selectedPiece));
-    //        }
-    //    }
-
-    //    ResetBoard();
-    //    isReplaying = false;
-    //}
-
 }

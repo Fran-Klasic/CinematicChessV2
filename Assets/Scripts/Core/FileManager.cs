@@ -206,6 +206,7 @@ public class FileManager : MonoBehaviour
 
         if (!Directory.Exists(pathToPlayerDirectory))
             Directory.CreateDirectory(pathToPlayerDirectory);
+
     }
 
 
