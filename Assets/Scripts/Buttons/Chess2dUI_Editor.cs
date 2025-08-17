@@ -33,6 +33,6 @@ public class Chess2dUI_Editor : MonoBehaviour
 
         MainController.Instance.isAnimating = false;
 
-        MainController.Instance.OpenEditor(record);
+        SceneManager.Instance.OpenEditor(record);
     }
 }

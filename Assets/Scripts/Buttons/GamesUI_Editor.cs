@@ -35,7 +35,7 @@ public class GamesUI_Editor : MonoBehaviour
         games_Group.SetActive(false);
         editor_Group.SetActive(true);
 
-        MainController.Instance.InitialzeEditor(record, editor_Group);
+        SceneManager.Instance.InitialzeEditor(record, editor_Group);
 
         ReplayManager.Instance.record = record;
 
