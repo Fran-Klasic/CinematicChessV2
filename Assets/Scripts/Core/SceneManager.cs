@@ -80,7 +80,7 @@ public class SceneManager : MonoBehaviour
     public void InitialzeEditor(FileManager.GameRecord record, GameObject editor_Group)
     {
         #region Name Parsing
-        TextMeshProUGUI gameTitle = editor_Group.transform.Find("Background/GameTitle").gameObject.GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI gameTitle = editor_Group.transform.Find("Background/GameTitle/Text Area/Placeholder").gameObject.GetComponent<TextMeshProUGUI>();
         gameTitle.text = Path.GetFileNameWithoutExtension(record.MetaData.gameFileName);
         #endregion
 

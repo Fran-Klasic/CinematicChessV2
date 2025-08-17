@@ -5,8 +5,8 @@ using UnityEngine.EventSystems;
 public class GamesUI_Exit : MonoBehaviour
 {
     [SerializeField] private Animator transition;
-    [SerializeField] private GameObject games_Group;
-    [SerializeField] private GameObject titleScreen_Group;
+    [SerializeField] private GameObject games_Group;// Unused
+    [SerializeField] private GameObject titleScreen_Group;// Unused
 
     public void OnClick()
     {
@@ -25,7 +25,6 @@ public class GamesUI_Exit : MonoBehaviour
         MainController.Instance.isAnimating = true;
         transition.SetTrigger("Out");
         yield return new WaitForSeconds(MainController.Instance.universalTransitionTime);
-
 
         MainController.Instance.isAnimating = false;
 

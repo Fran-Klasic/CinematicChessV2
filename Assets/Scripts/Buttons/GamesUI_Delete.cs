@@ -38,6 +38,7 @@ public class GameUI_Delete : MonoBehaviour
 
         MainController.Instance.isAnimating = false;
 
+        //Wait for user input
         while (true)
         {
             if (MainController.Instance.hasCanceled)

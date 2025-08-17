@@ -1,8 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
-using static ChessPieceBase;
-using NUnit.Framework.Constraints;
+
 
 public class ReplayManager : MonoBehaviour
 {
