@@ -10,7 +10,7 @@ public class EditorUI_Delete : MonoBehaviour
     [SerializeField] private Animator transition;
     [SerializeField] private Animator deleteConfirmation_Animator;
     [SerializeField] private GameObject deleteConfirmation_Group;
-    [SerializeField] private GameObject gameTitle;
+    [SerializeField] private ReplayManager replayManager;
 
     public void OnClick()
     {
@@ -71,7 +71,8 @@ public class EditorUI_Delete : MonoBehaviour
 
         yield return new WaitForSeconds(MainController.Instance.universalTransitionTime);
 
-        string fullFileName = gameTitle.GetComponent<TextMeshProUGUI>().text + ".json";
+        string fullFileName = replayManager.record.MetaData.gameFileName;
+
         fullFileName = Path.Combine(FileManager.Instance.pathToGamesDirectory, fullFileName);
 
         //Delete file

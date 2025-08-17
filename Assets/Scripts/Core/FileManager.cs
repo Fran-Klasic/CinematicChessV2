@@ -60,7 +60,6 @@ public class FileManager : MonoBehaviour
         }
     }
 
-
     public class GameRecord
     {
         public List<ChessMove> History { get; set; }
@@ -208,9 +207,6 @@ public class FileManager : MonoBehaviour
             Directory.CreateDirectory(pathToPlayerDirectory);
 
     }
-
-
-
 
     public static FileManager Instance;
     //MoveHistory.Instance.--- -> Singleton
