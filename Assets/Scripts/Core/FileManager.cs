@@ -5,6 +5,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
+using static FileManager;
 
 
 public class FileManager : MonoBehaviour
@@ -69,6 +70,18 @@ public class FileManager : MonoBehaviour
         {
             History = history;
             MetaData = metaData;
+        }
+    }
+
+    public class AnimationRecord
+    {
+        public GameRecord gameRecord { get; set; }
+        public AnimationSettingsUI_Core.AnimationData animationData { get; set; }
+
+        public AnimationRecord(GameRecord gameRecord, AnimationSettingsUI_Core.AnimationData animationData)
+        {
+            this.gameRecord = gameRecord;
+            this.animationData = animationData;
         }
     }
 
@@ -144,6 +157,47 @@ public class FileManager : MonoBehaviour
 
         return gameRecord;
     }
+
+    public void SaveAnimation(AnimationRecord animationRecord)
+    {
+        var settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented,
+            Converters = { new StringEnumConverter() }
+        };
+
+        if (!Directory.Exists(pathToAnimationsDirectory))
+        {
+            Directory.CreateDirectory(pathToAnimationsDirectory);
+        }
+
+        string animationData = JsonConvert.SerializeObject(animationRecord, settings);
+
+        string baseFileName = animationRecord.gameRecord.MetaData.gameFileName;
+
+        string fileNameWithoutExt = Path.GetFileNameWithoutExtension(baseFileName);
+        string extension = Path.GetExtension(baseFileName);
+
+        string path = Path.Combine(pathToAnimationsDirectory, baseFileName);
+
+        int counter = 1;
+        while (File.Exists(path))
+        {
+            string newFileName = $"{fileNameWithoutExt}({counter}){extension}";
+            path = Path.Combine(pathToAnimationsDirectory, newFileName);
+            counter++;
+        }
+
+        try
+        {
+            File.WriteAllText(path, animationData);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Failed to write animation record JSON: " + ex.Message);
+        }
+    }
+
 
     private void UpdateTempGame()
     {
@@ -238,7 +292,7 @@ public class FileManager : MonoBehaviour
     -> Favourites - holds all favourite games --- Name.JSON -> default name is the same as original game
     -> Animations - holds the games and themes, song for a chosen game
     -> Data
-     
+
     Make:
     Start screen UI:
         Start
@@ -252,7 +306,7 @@ public class FileManager : MonoBehaviour
         Audio settings
         Window size?
         On/Off for UI features (2D chess part)
-        
+
 
     For 2D chess part
     Make a resign button
@@ -308,6 +362,6 @@ public class FileManager : MonoBehaviour
         Release game on Steam for 4.99€ -> be sure the game is good
         Make game window be resizeable
 
-     
+
      */
 }

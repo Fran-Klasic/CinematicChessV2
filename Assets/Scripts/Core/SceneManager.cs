@@ -13,8 +13,6 @@ public class SceneManager : MonoBehaviour
     public const string mainUI = "MainUI";
     public const string chess2dVSFriend = "Chess2dVSFriend";
 
-    //Functions that handle scene switching
-
     public void LoadScene(Scenes scene)
     {
         string sceneToLoad = GetSceneString(scene);
@@ -133,10 +131,28 @@ public class SceneManager : MonoBehaviour
         #endregion
     }
 
+    private FileManager.GameRecord record = null;
 
-    public void ResetGame()
+    public void SaveGameData(FileManager.GameRecord record)
     {
+        //Gets the record from a game and saves it
+        Debug.Log("Saved Game Data!!!");
+        this.record = record;
+    }
 
+    public void SaveAnimationData(AnimationSettingsUI_Core.AnimationData animationData)
+    {
+        //Gets the record from here and the animation data and puts it into a json in the Animations dir
+        var animationRecord = new FileManager.AnimationRecord(record, animationData);
+        FileManager.Instance.SaveAnimation(animationRecord);
+        
+        Debug.Log("Saved all animation data!!!");
+    }
+
+    public void DiscardAllData()
+    {
+        Debug.Log("Discarded Game Data!!!");
+        record = null;
     }
 
     public Scenes GetScene(string sceneName)
@@ -152,7 +168,7 @@ public class SceneManager : MonoBehaviour
         return Scenes.None;
     }
 
-    private string GetSceneString (Scenes scene)
+    private string GetSceneString(Scenes scene)
     {
         switch (scene)
         {
