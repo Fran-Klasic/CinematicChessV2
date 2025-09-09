@@ -264,13 +264,13 @@ public class ReplayManager : MonoBehaviour
 
         for (int i = 0; i < history.Count; i++)
         {
-            var from = history[i].from;
-            Vector2Int fromV2Int = new Vector2Int(from.x, from.y);
-            var to = history[i].to;
-            Vector2Int toV2Int = new Vector2Int(to.x, to.y);
-            var promotedInto = history[i].promotedInto;
-            var pieceColor = history[i].pieceColor;
-            var specialMove = history[i].specialMove;
+            var from = history[i].From;
+            Vector2Int fromV2Int = new Vector2Int(from.X, from.Y);
+            var to = history[i].To;
+            Vector2Int toV2Int = new Vector2Int(to.X, to.Y);
+            var promotedInto = history[i].PromotedInto;
+            var pieceColor = history[i].PieceColor;
+            var specialMove = history[i].SpecialMove;
 
             GameObject selectedPiece = PiecesPreviewGenerator.Instance.pieceInfo[fromV2Int];
 

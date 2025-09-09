@@ -5,7 +5,6 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
-using static FileManager;
 
 
 public class FileManager : MonoBehaviour
@@ -20,42 +19,42 @@ public class FileManager : MonoBehaviour
 
     public struct ChessPosition
     {
-        public int x { get; set; }
-        public int y { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
 
         public ChessPosition(int x, int y)
         {
-            this.x = x;
-            this.y = y;
+            this.X = x;
+            this.Y = y;
         }
     }
 
     public class ChessMove
     {
-        public ChessPosition from { get; set; }
-        public ChessPosition to { get; set; }
-        public PieceType pieceType { get; set; }
-        public PieceColor pieceColor { get; set; }
-        public SpecialMove specialMove { get; set; }
-        public PieceType promotedInto { get; set; }
-        public float time { get; set; }
-        public bool hasCaptured { get; set; }
+        public ChessPosition From { get; set; }
+        public ChessPosition To { get; set; }
+        public PieceType PieceType { get; set; }
+        public PieceColor PieceColor { get; set; }
+        public SpecialMove SpecialMove { get; set; }
+        public PieceType PromotedInto { get; set; }
+        public float Time { get; set; }
+        public bool HasCaptured { get; set; }
     }
 
     public class MetaData
     {
-        public DateTime date { get; set; }
-        public float totalTime { get; set; }
-        public int totalMoves { get; set; }
+        public DateTime Date { get; set; }
+        public float TotalTime { get; set; }
+        public int TotalMoves { get; set; }
         public GameStateManager.End EndState { get; set; }
 
         public string gameFileName { get; set; }
 
         public MetaData(DateTime date, float totalTime, int totalMoves, GameStateManager.End endState, string gameFileName)
         {
-            this.date = date;
-            this.totalTime = totalTime;
-            this.totalMoves = totalMoves;
+            this.Date = date;
+            this.TotalTime = totalTime;
+            this.TotalMoves = totalMoves;
             EndState = endState;
             this.gameFileName = gameFileName;
         }
@@ -75,13 +74,13 @@ public class FileManager : MonoBehaviour
 
     public class AnimationRecord
     {
-        public GameRecord gameRecord { get; set; }
-        public AnimationSettingsUI_Core.AnimationData animationData { get; set; }
+        public GameRecord GameRecord { get; set; }
+        public AnimationSettingsUI_Core.AnimationData AnimationData { get; set; }
 
         public AnimationRecord(GameRecord gameRecord, AnimationSettingsUI_Core.AnimationData animationData)
         {
-            this.gameRecord = gameRecord;
-            this.animationData = animationData;
+            this.GameRecord = gameRecord;
+            this.AnimationData = animationData;
         }
     }
 
@@ -91,14 +90,14 @@ public class FileManager : MonoBehaviour
     {
         var move = new ChessMove
         {
-            from = new ChessPosition(from.x, from.y),
-            to = new ChessPosition(to.x, to.y),
-            pieceType = type,
-            pieceColor = color,
-            specialMove = specialMove,
-            promotedInto = promotedInto,
-            time = time,
-            hasCaptured = hasCaptured
+            From = new ChessPosition(from.x, from.y),
+            To = new ChessPosition(to.x, to.y),
+            PieceType = type,
+            PieceColor = color,
+            SpecialMove = specialMove,
+            PromotedInto = promotedInto,
+            Time = time,
+            HasCaptured = hasCaptured
         };
 
         History.Add(move);
@@ -173,13 +172,14 @@ public class FileManager : MonoBehaviour
 
         string animationData = JsonConvert.SerializeObject(animationRecord, settings);
 
-        string baseFileName = animationRecord.gameRecord.MetaData.gameFileName;
+        string baseFileName = animationRecord.GameRecord.MetaData.gameFileName;
 
         string fileNameWithoutExt = Path.GetFileNameWithoutExtension(baseFileName);
         string extension = Path.GetExtension(baseFileName);
 
         string path = Path.Combine(pathToAnimationsDirectory, baseFileName);
 
+        //Gets unique file name if current one exists
         int counter = 1;
         while (File.Exists(path))
         {
@@ -310,14 +310,8 @@ public class FileManager : MonoBehaviour
 
     For 2D chess part
     Make a resign button
-    Make a graveyard wih pixelart pieces -> Left
-    Make a move history -> Right
-    Make a visual UI feature for whoose turn it is
-    Make a Timer in the top right
     Add sound effects for all pieces based on move importance - normal, check, checkmate, special
     Add sound effect for game end
-
-    Make loading screens that wait for all prefabs to load, maybe await/async
 
     Make a game preview where you can choose to play a 3d animation or real life***
     Save Game To Favourites

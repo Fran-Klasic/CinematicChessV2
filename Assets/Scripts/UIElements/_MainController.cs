@@ -60,7 +60,7 @@ public class MainController : MonoBehaviour
                 FileManager.GameRecord record = JsonConvert.DeserializeObject<FileManager.GameRecord>(jsonData, settings);
 
                 #region Data Check
-                if (record.MetaData.totalTime <= 0)
+                if (record.MetaData.TotalTime <= 0)
                 {
                     Debug.LogError(file + " Total time can not be 0 or below");
                     allGames.Remove(file);
@@ -72,7 +72,7 @@ public class MainController : MonoBehaviour
                     allGames.Remove(file);
                     continue;
                 }
-                if (record.MetaData.totalMoves != record.History.Count)
+                if (record.MetaData.TotalMoves != record.History.Count)
                 {
                     Debug.LogError(file + " Total Moves do not match");
                     allGames.Remove(file);

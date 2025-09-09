@@ -88,7 +88,7 @@ public class MainUI_Games : MonoBehaviour
 
                 #region Time Parsing
                 TextMeshProUGUI gameTimeData = game.transform.Find("Background/GameData/GameTime").gameObject.GetComponent<TextMeshProUGUI>();
-                float seconds = record.Item1.MetaData.totalTime;
+                float seconds = record.Item1.MetaData.TotalTime;
                 TimeSpan timeSpan = TimeSpan.FromSeconds(seconds);
 
                 string formatedTime;
@@ -105,12 +105,12 @@ public class MainUI_Games : MonoBehaviour
 
                 #region Moves Parsing
                 TextMeshProUGUI totalMovesData = game.transform.Find("Background/GameData/TotalMoves").gameObject.GetComponent<TextMeshProUGUI>();
-                totalMovesData.text = "Total Moves: " + record.Item1.MetaData.totalMoves.ToString();
+                totalMovesData.text = "Total Moves: " + record.Item1.MetaData.TotalMoves.ToString();
                 #endregion
 
                 #region Date Parsing
                 TextMeshProUGUI dateData = game.transform.Find("Background/GameData/DateOfPlaying").gameObject.GetComponent<TextMeshProUGUI>();
-                dateData.text = "Date: " + record.Item1.MetaData.date.ToString("dd/MM/yyyy");
+                dateData.text = "Date: " + record.Item1.MetaData.Date.ToString("dd/MM/yyyy");
                 #endregion
             }
         }
