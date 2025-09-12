@@ -15,6 +15,8 @@ public class FileManager : MonoBehaviour
     [HideInInspector] public string pathToAnimationsDirectory;
     [HideInInspector] public string pathToPlayerDirectory;
 
+    [HideInInspector] public static string AnimationJsonPathHolder;
+
     public enum SpecialMove { None, EnPassant, Castle, Promotion }
 
     public struct ChessPosition
@@ -190,6 +192,7 @@ public class FileManager : MonoBehaviour
 
         try
         {
+            AnimationJsonPathHolder = path;
             File.WriteAllText(path, animationData);
         }
         catch (Exception ex)

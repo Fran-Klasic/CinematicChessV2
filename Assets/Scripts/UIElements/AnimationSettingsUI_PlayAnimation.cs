@@ -9,48 +9,26 @@ public class AnimationSettingsUI_PlayAnimation : MonoBehaviour
 {
     [SerializeField] Animator transition;
 
-    //private async Task<List<TextAsset>> LoadHitsByGenre(string genreLabel)
-    //{
-    //    List<TextAsset> hits = new List<TextAsset>();
-
-    //    await Addressables.LoadAssetsAsync<TextAsset>(
-    //        new List<object> { "Song_Hits", genreLabel },
-    //        file => hits.Add(file)
-    //    ).Task;
-
-    //    foreach (var hit in hits)
-    //    {
-    //        Debug.Log(hit.name);
-    //    }
-
-    //    return hits;
-    //}
-
-    public void OnClick()
+    public async void OnClick()
     {
         if (transition == null) return;
         if (MainController.Instance.isAnimating) return;
 
-        //string genreLabel = AnimationSettingsUI_Core.musicGenre + "_Genre";
+        string genreLabel = AnimationSettingsUI_Core.musicGenre;
 
-        //// Wait for hits JSON to load
-        //List<TextAsset> hits = await LoadHitsByGenre(genreLabel);
+        SongData song = await AudioManager.LoadRandomSongAsync(genreLabel);
+        string name = song.name;
 
-        //if (hits.Count == 0)
-        //{
-        //    Debug.LogWarning("No hits JSON found for genre: " + AnimationSettingsUI_Core.musicGenre);
-        //    return;
-        //}
-        //else
-        //{
-        //    Debug.Log($"Found {hits.Count} hits JSONs for genre: " + AnimationSettingsUI_Core.musicGenre);
-        //}
-
-
+        AnimationSettingsUI_Core.SaveSong(name);
 
         AnimationSettingsUI_Core.SaveAllData();
 
+
+        Debug.Log("Starting Animation...");
         //Load AnimationScene
+
+
+
 
         //Animator will try to change state into selected
         //Unselect button from the animator

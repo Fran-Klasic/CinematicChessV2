@@ -8,15 +8,22 @@ using System.Collections;
 public class SceneManager : MonoBehaviour
 {
     //All scenes in a const string
-    public enum Scenes { None, MainUI, Chess2dVSFriend, AnimationEditor, Animation3d }
+    public enum Scenes { None, MainUI, Chess2dVSFriend, AnimationCore, Theme_Generic }
 
     public const string mainUI = "MainUI";
     public const string chess2dVSFriend = "Chess2dVSFriend";
+    public const string animationCore = "AnimationCore";
+    public const string theme_Generic = "Theme_Generic";
 
     public void LoadScene(Scenes scene)
     {
         string sceneToLoad = GetSceneString(scene);
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneToLoad, LoadSceneMode.Single);
+    }
+    public void LoadAnimationCore(string animationFile)
+    {
+        //Deserializes the animation json
+        UnityEngine.SceneManagement.SceneManager.LoadScene(animationCore, LoadSceneMode.Single);
     }
     public void LoadMainUI()
     {
