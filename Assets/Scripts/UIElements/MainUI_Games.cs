@@ -68,7 +68,7 @@ public class MainUI_Games : MonoBehaviour
                 #region Result Parsing
                 TextMeshProUGUI resultData = game.transform.Find("Background/GameData/GameResult").gameObject.GetComponent<TextMeshProUGUI>();
                 string formatedResult;
-                switch (record.Item1.MetaData.EndState)
+                switch (record.Item1.Metadata.EndState)
                 {
                     case GameStateManager.End.BlackWon:
                         formatedResult = "Black Won!!!";
@@ -88,7 +88,7 @@ public class MainUI_Games : MonoBehaviour
 
                 #region Time Parsing
                 TextMeshProUGUI gameTimeData = game.transform.Find("Background/GameData/GameTime").gameObject.GetComponent<TextMeshProUGUI>();
-                float seconds = record.Item1.MetaData.TotalTime;
+                float seconds = record.Item1.Metadata.TotalTime;
                 TimeSpan timeSpan = TimeSpan.FromSeconds(seconds);
 
                 string formatedTime;
@@ -105,12 +105,12 @@ public class MainUI_Games : MonoBehaviour
 
                 #region Moves Parsing
                 TextMeshProUGUI totalMovesData = game.transform.Find("Background/GameData/TotalMoves").gameObject.GetComponent<TextMeshProUGUI>();
-                totalMovesData.text = "Total Moves: " + record.Item1.MetaData.TotalMoves.ToString();
+                totalMovesData.text = "Total Moves: " + record.Item1.Metadata.TotalMoves.ToString();
                 #endregion
 
                 #region Date Parsing
                 TextMeshProUGUI dateData = game.transform.Find("Background/GameData/DateOfPlaying").gameObject.GetComponent<TextMeshProUGUI>();
-                dateData.text = "Date: " + record.Item1.MetaData.Date.ToString("dd/MM/yyyy");
+                dateData.text = "Date: " + record.Item1.Metadata.Date.ToString("dd/MM/yyyy");
                 #endregion
             }
         }

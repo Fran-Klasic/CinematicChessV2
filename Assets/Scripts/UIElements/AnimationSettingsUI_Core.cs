@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 public static class AnimationSettingsUI_Core
 {
     //Logs all settings and saves them to the scene manager to play the animation
@@ -33,6 +35,38 @@ public static class AnimationSettingsUI_Core
             this.Song = song;
         }
     }
+
+
+    public static HashSet<string> validThemes = new HashSet<string>
+    {
+        "Generic",
+        "Space",
+        "Medieval",
+    };
+    public static HashSet<string> validPace = new HashSet<string>
+    {
+        "Short",
+        "Medium",
+        "Long",
+    };
+    public static HashSet<string> validGenre = new HashSet<string>
+    {
+        "Classic",
+        "Country",
+        "Electronic",
+        "Futuristic",
+        "Epic",
+    };
+    public static HashSet<string> validOrientation = new HashSet<string>
+    {
+        "Horizontal",
+        "Vertical",
+    };
+    public static HashSet<string> validEnableHud = new HashSet<string>
+    {
+        "True",
+        "False",
+    };
 
     public static void SaveTheme(string value) => theme = value;
     public static void SavePace(string value) => pace = value;

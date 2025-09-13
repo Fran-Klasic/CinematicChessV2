@@ -20,11 +20,13 @@ public class SceneManager : MonoBehaviour
         string sceneToLoad = GetSceneString(scene);
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneToLoad, LoadSceneMode.Single);
     }
-    public void LoadAnimationCore(string animationFile)
+
+    public void LoadAdditiveScene(Scenes scene)
     {
-        //Deserializes the animation json
-        UnityEngine.SceneManagement.SceneManager.LoadScene(animationCore, LoadSceneMode.Single);
+        string sceneToLoad = GetSceneString(scene);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneToLoad, LoadSceneMode.Additive);
     }
+
     public void LoadMainUI()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(mainUI, LoadSceneMode.Single);
@@ -33,6 +35,11 @@ public class SceneManager : MonoBehaviour
     public void LoadChess2dVSFriend()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(chess2dVSFriend, LoadSceneMode.Single);
+    }
+
+    public void LoadAnimationCore()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(animationCore, LoadSceneMode.Single);
     }
 
     public void LoadMenu(string currentScene)
@@ -86,13 +93,13 @@ public class SceneManager : MonoBehaviour
     {
         #region Name Parsing
         TextMeshProUGUI gameTitle = editor_Group.transform.Find("Background/GameTitle/Text Area/Placeholder").gameObject.GetComponent<TextMeshProUGUI>();
-        gameTitle.text = Path.GetFileNameWithoutExtension(record.MetaData.gameFileName);
+        gameTitle.text = Path.GetFileNameWithoutExtension(record.Metadata.GameFileName);
         #endregion
 
         #region Result Parsing
         TextMeshProUGUI result = editor_Group.transform.Find("Background/GameData/Result").gameObject.GetComponent<TextMeshProUGUI>();
         string formatedResult;
-        switch (record.MetaData.EndState)
+        switch (record.Metadata.EndState)
         {
             case GameStateManager.End.BlackWon:
                 formatedResult = "Black Won!!!";
@@ -112,7 +119,7 @@ public class SceneManager : MonoBehaviour
 
         #region Time Parsing
         TextMeshProUGUI gameTimeData = editor_Group.transform.Find("Background/GameData/TotalTime").gameObject.GetComponent<TextMeshProUGUI>();
-        float seconds = record.MetaData.TotalTime;
+        float seconds = record.Metadata.TotalTime;
         TimeSpan timeSpan = TimeSpan.FromSeconds(seconds);
 
         string formatedTime;
@@ -129,12 +136,12 @@ public class SceneManager : MonoBehaviour
 
         #region Moves Parsing
         TextMeshProUGUI totalMovesData = editor_Group.transform.Find("Background/GameData/TotalMoves").gameObject.GetComponent<TextMeshProUGUI>();
-        totalMovesData.text = "Total Moves: " + record.MetaData.TotalMoves.ToString();
+        totalMovesData.text = "Total Moves: " + record.Metadata.TotalMoves.ToString();
         #endregion
 
         #region Date Parsing
         TextMeshProUGUI dateData = editor_Group.transform.Find("Background/GameData/Date").gameObject.GetComponent<TextMeshProUGUI>();
-        dateData.text = "Date: " + record.MetaData.Date.ToString("dd/MM/yyyy");
+        dateData.text = "Date: " + record.Metadata.Date.ToString("dd/MM/yyyy");
         #endregion
     }
 
@@ -152,7 +159,7 @@ public class SceneManager : MonoBehaviour
         //Gets the record from here and the animation data and puts it into a json in the Animations dir
         var animationRecord = new FileManager.AnimationRecord(record, animationData);
         FileManager.Instance.SaveAnimation(animationRecord);
-        
+
         Debug.Log("Saved all animation data!!!");
     }
 
@@ -170,6 +177,10 @@ public class SceneManager : MonoBehaviour
                 return Scenes.Chess2dVSFriend;
             case mainUI:
                 return Scenes.MainUI;
+            case animationCore:
+                return Scenes.AnimationCore;
+            case theme_Generic:
+                return Scenes.Theme_Generic;
         }
 
         return Scenes.None;
@@ -183,6 +194,10 @@ public class SceneManager : MonoBehaviour
                 return chess2dVSFriend;
             case Scenes.MainUI:
                 return mainUI;
+            case Scenes.AnimationCore:
+                return animationCore;
+            case Scenes.Theme_Generic:
+                return theme_Generic;
         }
 
         return string.Empty;

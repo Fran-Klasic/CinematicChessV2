@@ -22,7 +22,7 @@ MonoBehaviour:
     - Futuristic
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: abbdad7f34f52444aaa0c547bb1fde70
-    m_Address: Assets/CinematicMusic/_ScriptableObjects/SongData.asset
+    m_Address: Assets/CinematicMusic/_ScriptableObjects/EpicEmotionalLong197089_SongData.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - Epic
@@ -30,4 +30,5 @@ MonoBehaviour:
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 228c69bcf311b7f4b81ddb12935cf91a, type: 2}
   m_SchemaSet:
-    m_Schemas: []
+    m_Schemas:
+    - {fileID: 11400000, guid: 654476d82df40e54cab2244d026f938c, type: 2}

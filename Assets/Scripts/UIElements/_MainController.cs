@@ -6,10 +6,6 @@ using System;
 using UnityEngine;
 using System.IO;
 using System.Linq;
-using System.Collections;
-using UnityEngine.SceneManagement;
-using TMPro;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class MainController : MonoBehaviour
@@ -60,19 +56,19 @@ public class MainController : MonoBehaviour
                 FileManager.GameRecord record = JsonConvert.DeserializeObject<FileManager.GameRecord>(jsonData, settings);
 
                 #region Data Check
-                if (record.MetaData.TotalTime <= 0)
+                if (record.Metadata.TotalTime <= 0)
                 {
                     Debug.LogError(file + " Total time can not be 0 or below");
                     allGames.Remove(file);
                     continue;
                 }
-                if (record.MetaData.EndState == GameStateManager.End.None)
+                if (record.Metadata.EndState == GameStateManager.End.None)
                 {
                     Debug.LogError(file + " EndState can not be null");
                     allGames.Remove(file);
                     continue;
                 }
-                if (record.MetaData.TotalMoves != record.History.Count)
+                if (record.Metadata.TotalMoves != record.History.Count)
                 {
                     Debug.LogError(file + " Total Moves do not match");
                     allGames.Remove(file);

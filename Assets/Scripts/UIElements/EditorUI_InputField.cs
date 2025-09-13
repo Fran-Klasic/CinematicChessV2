@@ -23,13 +23,13 @@ public class EditorUI_InputField : MonoBehaviour
         {
             Debug.Log("Invalid filename, reverting to original.");
 
-            // Restore original (from placeholder or current MetaData)
+            // Restore original (from placeholder or current Metadata)
             string placeholderName = transform.Find("Text Area/Placeholder").GetComponent<TextMeshProUGUI>().text + ".json";
-            ReplayManager.Instance.record.MetaData.gameFileName = placeholderName;
+            ReplayManager.Instance.record.Metadata.GameFileName = placeholderName;
             return;
         }
 
-        string oldFileName = ReplayManager.Instance.record.MetaData.gameFileName;
+        string oldFileName = ReplayManager.Instance.record.Metadata.GameFileName;
         string pathToOldFile = Path.Combine(FileManager.Instance.pathToGamesDirectory, oldFileName);
 
         string newFileName = Path.ChangeExtension(sanitized, ".json");
@@ -49,7 +49,7 @@ public class EditorUI_InputField : MonoBehaviour
             }
 
             // Update metadata and save JSON
-            ReplayManager.Instance.record.MetaData.gameFileName = Path.GetFileName(pathToNewFile);
+            ReplayManager.Instance.record.Metadata.GameFileName = Path.GetFileName(pathToNewFile);
             string gameData = JsonConvert.SerializeObject(ReplayManager.Instance.record, settings);
             File.WriteAllText(pathToNewFile, gameData);
         }

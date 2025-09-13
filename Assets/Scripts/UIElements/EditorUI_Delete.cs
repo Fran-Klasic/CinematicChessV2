@@ -71,7 +71,7 @@ public class EditorUI_Delete : MonoBehaviour
 
         yield return new WaitForSeconds(MainController.Instance.universalTransitionTime);
 
-        string fullFileName = replayManager.record.MetaData.gameFileName;
+        string fullFileName = replayManager.record.Metadata.GameFileName;
 
         fullFileName = Path.Combine(FileManager.Instance.pathToGamesDirectory, fullFileName);
 

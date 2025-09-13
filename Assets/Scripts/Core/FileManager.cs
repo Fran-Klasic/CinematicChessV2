@@ -43,34 +43,34 @@ public class FileManager : MonoBehaviour
         public bool HasCaptured { get; set; }
     }
 
-    public class MetaData
+    public class Metadata
     {
         public DateTime Date { get; set; }
         public float TotalTime { get; set; }
         public int TotalMoves { get; set; }
         public GameStateManager.End EndState { get; set; }
 
-        public string gameFileName { get; set; }
+        public string GameFileName { get; set; }
 
-        public MetaData(DateTime date, float totalTime, int totalMoves, GameStateManager.End endState, string gameFileName)
+        public Metadata(DateTime date, float totalTime, int totalMoves, GameStateManager.End endState, string gameFileName)
         {
             this.Date = date;
             this.TotalTime = totalTime;
             this.TotalMoves = totalMoves;
             EndState = endState;
-            this.gameFileName = gameFileName;
+            this.GameFileName = gameFileName;
         }
     }
 
     public class GameRecord
     {
         public List<ChessMove> History { get; set; }
-        public MetaData MetaData { get; set; }
+        public Metadata Metadata { get; set; }
 
-        public GameRecord(List<ChessMove> history, MetaData metaData)
+        public GameRecord(List<ChessMove> history, Metadata metadata)
         {
             History = history;
-            MetaData = metaData;
+            Metadata = metadata;
         }
     }
 
@@ -141,7 +141,7 @@ public class FileManager : MonoBehaviour
                 counter++;
             }
 
-            MetaData metaData = new MetaData(DateTime.Now, time, totalMoves, endState, gameFileName);
+            Metadata metaData = new Metadata(DateTime.Now, time, totalMoves, endState, gameFileName);
 
             gameRecord = new GameRecord(History, metaData);
             string gameData = JsonConvert.SerializeObject(gameRecord, settings);
@@ -172,9 +172,7 @@ public class FileManager : MonoBehaviour
             Directory.CreateDirectory(pathToAnimationsDirectory);
         }
 
-        string animationData = JsonConvert.SerializeObject(animationRecord, settings);
-
-        string baseFileName = animationRecord.GameRecord.MetaData.gameFileName;
+        string baseFileName = animationRecord.GameRecord.Metadata.GameFileName;
 
         string fileNameWithoutExt = Path.GetFileNameWithoutExtension(baseFileName);
         string extension = Path.GetExtension(baseFileName);
@@ -183,12 +181,17 @@ public class FileManager : MonoBehaviour
 
         //Gets unique file name if current one exists
         int counter = 1;
+        string newFileName = baseFileName;
         while (File.Exists(path))
         {
-            string newFileName = $"{fileNameWithoutExt}({counter}){extension}";
+            newFileName = $"{fileNameWithoutExt}({counter}){extension}";
             path = Path.Combine(pathToAnimationsDirectory, newFileName);
             counter++;
         }
+
+        animationRecord.GameRecord.Metadata.GameFileName = newFileName;
+
+        string animationData = JsonConvert.SerializeObject(animationRecord, settings);
 
         try
         {
@@ -201,6 +204,125 @@ public class FileManager : MonoBehaviour
         }
     }
 
+    public AnimationRecord DeserializeAnimationFile()
+    {
+        var settings = new JsonSerializerSettings
+        {
+            MissingMemberHandling = MissingMemberHandling.Error
+        };
+
+        if (string.IsNullOrWhiteSpace(AnimationJsonPathHolder))
+        {
+            Debug.LogError("AnimationJsonPathHolder is empty or null!");
+            return null;
+        }
+
+        if (!File.Exists(AnimationJsonPathHolder))
+        {
+            Debug.LogError($"File not found at path: {AnimationJsonPathHolder}");
+            return null;
+        }
+
+        try
+        {
+            string data = File.ReadAllText(AnimationJsonPathHolder);
+            AnimationRecord animationRecord = JsonConvert.DeserializeObject<AnimationRecord>(data, settings);
+            return animationRecord;
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"Exception found in DeserializeAnimationFile: {ex.Message}");
+            return null;
+        }
+    }
+
+    public bool ValidateAnimationRecord(AnimationRecord animationRecord)
+    {
+        if (animationRecord == null)
+        {
+            Debug.LogError("AnimationRecord is null!");
+            return false;
+        }
+
+        var gameRecord = animationRecord.GameRecord;
+
+        var history = gameRecord.History;
+        var metadata = gameRecord.Metadata;
+        var animationData = animationRecord.AnimationData;
+
+        if (metadata.TotalTime < 0)
+        {
+            Debug.LogError($"Invalid TotalTime: {metadata.TotalTime}");
+            return false;
+        }
+
+        if (metadata.TotalMoves < 0)
+        {
+            Debug.LogError($"Invalid TotalMoves: {metadata.TotalMoves}");
+            return false;
+        }
+
+        if (!AnimationSettingsUI_Core.validThemes.Contains(animationData.Theme))
+        {
+            Debug.LogError($"Invalid Theme: {animationData.Theme}");
+            return false;
+        }
+
+
+        if (!AnimationSettingsUI_Core.validPace.Contains(animationData.Pace))
+        {
+            Debug.LogError($"Invalid Pace: {animationData.Pace}");
+            return false;
+        }
+
+        if (!AnimationSettingsUI_Core.validGenre.Contains(animationData.MusicGenre))
+        {
+            Debug.LogError($"Invalid MusicGenre: {animationData.MusicGenre}");
+            return false;
+        }
+
+        if (!AnimationSettingsUI_Core.validOrientation.Contains(animationData.Orientation))
+        {
+            Debug.LogError($"Invalid Orientation: {animationData.Orientation}");
+            return false;
+        }
+
+        if (!AnimationSettingsUI_Core.validEnableHud.Contains(animationData.EnableHud))
+        {
+            Debug.LogError($"Invalid EnableHud value: {animationData.EnableHud}");
+            return false;
+        }
+
+        if (history == null || history.Count == 0)
+        {
+            Debug.LogError("GameRecord.History is null or empty");
+            return false;
+        }
+
+        foreach (var move in history)
+        {
+            if (move.From.X < 0 || move.From.X > 7 || move.From.Y < 0 || move.From.Y > 7)
+            {
+                Debug.LogError($"Invalid move From coordinates: ({move.From.X},{move.From.Y})");
+                return false;
+            }
+
+            if (move.To.X < 0 || move.To.X > 7 || move.To.Y < 0 || move.To.Y > 7)
+            {
+                Debug.LogError($"Invalid move To coordinates: ({move.To.X},{move.To.Y})");
+                return false;
+            }
+
+            if (move.Time < 0)
+            {
+                Debug.LogError($"Move.Time is negative: {move.Time}");
+                return false;
+            }
+        }
+
+        //Is safe
+        return true;
+    }
 
     private void UpdateTempGame()
     {
@@ -266,7 +388,7 @@ public class FileManager : MonoBehaviour
     }
 
     public static FileManager Instance;
-    //MoveHistory.Instance.--- -> Singleton
+    //FileManager.Instance.--- -> Singleton
     private void Awake()
     {
         GeneratePersistentDataHierarchy();

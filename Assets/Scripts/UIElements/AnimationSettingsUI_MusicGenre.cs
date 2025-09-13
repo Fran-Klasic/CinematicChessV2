@@ -12,10 +12,5 @@ public class AnimationSettingsUI_MusicGenre : MonoBehaviour
         string selected = gameObject.GetComponent<TMP_Dropdown>().options[index].text;
         Debug.Log("Selected Music Genre: " + selected);
         AnimationSettingsUI_Core.SaveMusicGenre(selected);
-
-
-
-        //AnimationSettingsUI_Core.SaveSong(value);
-
     }
 }
