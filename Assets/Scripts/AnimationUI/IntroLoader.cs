@@ -28,6 +28,8 @@ public class IntroLoader : MonoBehaviour
 
     [HideInInspector] public static float universalTransitionTime = 1f;
 
+    private SongData song;
+
     #region Scene loading and starting corutine
     private void OnEnable()
     {
@@ -76,6 +78,8 @@ public class IntroLoader : MonoBehaviour
                 {
                     SongData songData = handle.Result;
                     SongName.text = songData.songName;
+
+                    song = handle.Result; //For AudioManager
                 }
             };
         }
