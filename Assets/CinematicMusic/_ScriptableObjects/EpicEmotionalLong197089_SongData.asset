@@ -15,3 +15,4 @@ MonoBehaviour:
   audioClipMP3: {fileID: 8300000, guid: 61659c7b5dba10546964875b194331c3, type: 3}
   timestampsJSON: {fileID: 4900000, guid: ab9e8b728e5c90443bdbace8d4f4e2de, type: 3}
   genre: 3
+  songName: Epic Emotional Long

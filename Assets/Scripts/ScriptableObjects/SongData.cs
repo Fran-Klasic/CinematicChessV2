@@ -25,6 +25,7 @@ public class SongData : ScriptableObject
 
     [Header("Metadata")]
     public Genre genre;
+    public string songName;
 
     public float[] GetTimestamps()
     {

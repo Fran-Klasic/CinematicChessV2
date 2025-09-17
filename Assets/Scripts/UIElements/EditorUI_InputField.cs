@@ -16,6 +16,11 @@ public class EditorUI_InputField : MonoBehaviour
             Converters = { new StringEnumConverter() }
         };
 
+        string oldFileName;
+        string pathToOldFile;
+        string newFileName;
+        string pathToNewFile;
+
         //Make sure new file name is safe
         string sanitized = SanitizeFileName(newValue);
 
@@ -25,15 +30,23 @@ public class EditorUI_InputField : MonoBehaviour
 
             // Restore original (from placeholder or current Metadata)
             string placeholderName = transform.Find("Text Area/Placeholder").GetComponent<TextMeshProUGUI>().text + ".json";
-            ReplayManager.Instance.record.Metadata.GameFileName = placeholderName;
-            return;
+
+            newFileName = Path.ChangeExtension(placeholderName, ".json");
+
+            Debug.Log($"New file name: {newFileName}");
+
+            pathToNewFile = GetUniqueFilePath(newFileName);
+
+            Debug.Log($"New file path: {pathToNewFile}");
         }
-
-        string oldFileName = ReplayManager.Instance.record.Metadata.GameFileName;
-        string pathToOldFile = Path.Combine(FileManager.Instance.pathToGamesDirectory, oldFileName);
-
-        string newFileName = Path.ChangeExtension(sanitized, ".json");
-        string pathToNewFile = GetUniqueFilePath(newFileName);
+        else
+        {
+            newFileName = Path.ChangeExtension(sanitized, ".json");
+            pathToNewFile = GetUniqueFilePath(newFileName);
+        }
+        
+        oldFileName = ReplayManager.Instance.record.Metadata.GameFileName;
+        pathToOldFile = Path.Combine(FileManager.Instance.pathToGamesDirectory, oldFileName);
 
         try
         {

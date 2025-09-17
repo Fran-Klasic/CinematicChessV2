@@ -16,13 +16,13 @@ MonoBehaviour:
   m_GUID: 8c326846b1ebdb844b0d31c8e8e5ab9e
   m_SerializeEntries:
   - m_GUID: 88a3e3f92444ed24abde0dc2ff7ee9f4
-    m_Address: Assets/CinematicMusic/_ScriptableObjects/LeonellCassioChapterTwoFtCarrie114909_SongData.asset
+    m_Address: LeonellCassioChapterTwoFtCarrie114909_SongData
     m_ReadOnly: 0
     m_SerializedLabels:
     - Futuristic
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: abbdad7f34f52444aaa0c547bb1fde70
-    m_Address: Assets/CinematicMusic/_ScriptableObjects/EpicEmotionalLong197089_SongData.asset
+    m_Address: EpicEmotionalLong197089_SongData
     m_ReadOnly: 0
     m_SerializedLabels:
     - Epic
