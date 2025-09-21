@@ -28,7 +28,11 @@ public class IntroLoader : MonoBehaviour
     [SerializeField] private TextMeshProUGUI AnimationName;
     [SerializeField] private TextMeshProUGUI SongName;
 
-    public float WaitTime = 1f;
+    [Space(10)]
+    [Header("Time: ")]
+    [SerializeField] private float WaitTime = 1f;
+
+
     [HideInInspector] public SongData song;
 
     #region Scene loading and starting corutine
@@ -122,6 +126,5 @@ public class IntroLoader : MonoBehaviour
             MusicDataGroupAnimator.SetTrigger("Out");
         }
         yield return new WaitForSeconds(WaitTime);
-
     }
 }
