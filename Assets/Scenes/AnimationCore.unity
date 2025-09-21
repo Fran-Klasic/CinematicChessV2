@@ -938,6 +938,8 @@ MonoBehaviour:
   Player2DataGroupAnimator: {fileID: 1123289765}
   AnimationName: {fileID: 506193382}
   SongName: {fileID: 1856576010}
+  WaitTime: 1
+  song: {fileID: 0}
 --- !u!1 &810934070
 GameObject:
   m_ObjectHideFlags: 0

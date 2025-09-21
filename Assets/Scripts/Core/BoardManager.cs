@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using static ChessPieceBase;
 
 public class BoardManager : MonoBehaviour
@@ -13,6 +14,15 @@ public class BoardManager : MonoBehaviour
 
     //Link pawn position and the ability to do En Passant
     public Dictionary<Vector2Int, bool> EnPassantAttribute = new();
+
+    //Used for points
+    [HideInInspector] public List<PieceType> WhiteTakenPieces = new List<PieceType>();
+    [HideInInspector] public List<PieceType> BlackTakenPieces = new List<PieceType>();
+
+    //Points
+    [HideInInspector] public int WhitePoints;
+    [HideInInspector] public int BlackPoints;
+
 
     public void InitializePiece(int x, int y, GameObject prefab, PieceType type, PieceColor color)
     {
@@ -48,6 +58,16 @@ public class BoardManager : MonoBehaviour
             {
                 //If piece is captured
                 Destroy(targetPieceGO);
+
+                if (BoardState[to.x, to.y].Color == PieceColor.White)
+                {
+                    WhiteTakenPieces.Add(BoardState[to.x, to.y].Type);
+                }
+                else
+                {
+                    BlackTakenPieces.Add(BoardState[to.x, to.y].Type);
+                }
+
                 PieceGameObjects.Remove(to);
                 BoardState[to.x, to.y] = null;
             }
@@ -68,6 +88,8 @@ public class BoardManager : MonoBehaviour
             BoardState[to.x, to.y].HasMoved = true;
             BoardState[from.x, from.y] = null;
         }
+
+        GetCurrentPoints();
     }
 
     public void MovePieceCastling(Vector2Int from, Vector2Int to)
@@ -108,11 +130,94 @@ public class BoardManager : MonoBehaviour
         if (PieceGameObjects.TryGetValue(capturedPawnPosition, out var capturedPawnGO))
         {
             Destroy(capturedPawnGO);
+
+            if (piece.Color == PieceColor.White)
+            {
+                BlackTakenPieces.Add(PieceType.Pawn);
+            }
+            else
+            {
+                WhiteTakenPieces.Add(PieceType.Pawn);
+            }
+
             PieceGameObjects.Remove(capturedPawnPosition);
             BoardState[capturedPawnPosition.x, capturedPawnPosition.y] = null;
         }
 
         MovePiece(from, to);
+    }
+
+    public void GetCurrentPoints()
+    {
+        int totalBlackPoints = 0;
+        int totalWhitePoints = 0;
+
+        foreach (var piece in WhiteTakenPieces)
+        {
+            switch (piece)
+            {
+                case PieceType.Pawn:
+                    totalBlackPoints += 1;
+                    break;
+                case PieceType.Rook:
+                    totalBlackPoints += 5;
+                    break;
+                case PieceType.Knight:
+                    totalBlackPoints += 3;
+                    break;
+                case PieceType.Bishop:
+                    totalBlackPoints += 3;
+                    break;
+                case PieceType.Queen:
+                    totalBlackPoints += 9;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        foreach (var piece in BlackTakenPieces)
+        {
+            switch (piece)
+            {
+                case PieceType.Pawn:
+                    totalWhitePoints += 1;
+                    break;
+                case PieceType.Rook:
+                    totalWhitePoints += 5;
+                    break;
+                case PieceType.Knight:
+                    totalWhitePoints += 3;
+                    break;
+                case PieceType.Bishop:
+                    totalWhitePoints += 3;
+                    break;
+                case PieceType.Queen:
+                    totalWhitePoints += 9;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if (totalWhitePoints - totalBlackPoints > 0)
+        {
+            //White is in the lead
+            WhitePoints = totalWhitePoints - totalBlackPoints;//Is positive value
+            BlackPoints = 0;
+        }
+        else if (totalWhitePoints - totalBlackPoints < 0)
+        {
+            //Black is in the lead
+            BlackPoints = Math.Abs(totalWhitePoints - totalBlackPoints);//Is negative value
+            WhitePoints = 0;
+        }
+        else
+        {
+            //Equal
+            WhitePoints = 0;
+            BlackPoints = 0;
+        }
     }
 
     public static BoardManager Instance;

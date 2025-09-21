@@ -93,10 +93,26 @@ public class ChessUIManager : MonoBehaviour
             textObject.text = text;
         }
     }
-    
+
+    private void DisplayCurrentPointValue()
+    {
+        TextMeshProUGUI textObject = gameObject.GetComponent<TextMeshProUGUI>();
+        if (textObject.name.Contains("White"))
+        {
+            string text = $"White: +{BoardManager.Instance.WhitePoints}";
+            textObject.text = text;
+        }
+        else if (textObject.name.Contains("Black"))
+        {
+            string text = $"Black: +{BoardManager.Instance.BlackPoints}";
+            textObject.text = text;
+        }
+    }
     private void Update()
     {
         if (gameObject.name == "PlayerTurnData")
             DisplayCurrentTurnPlayer();
+        if (gameObject.name.Contains("PointsText"))
+            DisplayCurrentPointValue();
     }
 }

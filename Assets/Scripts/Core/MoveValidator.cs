@@ -39,6 +39,21 @@ public class MoveValidator : MonoBehaviour
         return enemyMoves.Contains(king.BoardPosition);
     }
 
+    public bool IsInsufficientMaterial(LogicPiece[,] logicBoardState)
+    {
+        List<LogicPiece> pieces = new List<LogicPiece>();
+
+        foreach (var piece in logicBoardState)
+        {
+            if (piece == null) continue;
+
+            pieces.Add(piece);
+        }
+
+        //If only the kings remain
+        return pieces.Count == 2;
+    }
+
     public bool IsCheckmate(LogicPiece[,] logicBoardState, PieceColor color)
     {
         //Check if it is currently in check

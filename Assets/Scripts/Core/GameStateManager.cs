@@ -35,6 +35,7 @@ public class GameStateManager : MonoBehaviour
             //bool isBlackInCheck = MoveValidator.Instance.IsCheck(logicBoardState, PieceColor.Black); //For audio
             bool isWhiteInStalemate = MoveValidator.Instance.IsStalemate(logicBoardState, PieceColor.White);
             bool isBlackInStalemate = MoveValidator.Instance.IsStalemate(logicBoardState, PieceColor.Black);
+            bool isInsufficientMaterials = MoveValidator.Instance.IsInsufficientMaterial(logicBoardState);
 
             #region Game End Checks
             if (isWhiteInStalemate || isBlackInStalemate)
@@ -61,6 +62,16 @@ public class GameStateManager : MonoBehaviour
             {
                 //Game ended, white won
                 EndState = End.WhiteWon;
+                //Update game state
+                GameState = State.GameEnd;
+                //No need to check anything again
+                updateState = false;
+            }
+
+            if (isInsufficientMaterials)
+            {
+                //Game ended in a draw
+                EndState = End.Draw;
                 //Update game state
                 GameState = State.GameEnd;
                 //No need to check anything again

@@ -1,10 +1,12 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.Collections;
-using TMPro;
 using System.IO;
+using System.Threading.Tasks;
+using TMPro;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class IntroLoader : MonoBehaviour
 {
@@ -26,9 +28,8 @@ public class IntroLoader : MonoBehaviour
     [SerializeField] private TextMeshProUGUI AnimationName;
     [SerializeField] private TextMeshProUGUI SongName;
 
-    [HideInInspector] public static float universalTransitionTime = 1f;
-
-    private SongData song;
+    public float WaitTime = 1f;
+    [HideInInspector] public SongData song;
 
     #region Scene loading and starting corutine
     private void OnEnable()
@@ -41,19 +42,19 @@ public class IntroLoader : MonoBehaviour
         UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    private async void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        song = await GetSongDataAsync();
+        if (song != null)
+            Debug.Log("Loaded song: " + song.songName);
+
         StartCoroutine(PlayIntro());
     }
 
     #endregion
 
-    private IEnumerator PlayIntro()
+    private void GetAnimationName()
     {
-        yield return new WaitForSeconds(universalTransitionTime);
-
-        //Play camera animation
-
         string gameName;
         if (PersistantAnimationData.Instance != null)
             gameName = PersistantAnimationData.Instance.AnimationRecord.GameRecord.Metadata.GameFileName;
@@ -62,41 +63,65 @@ public class IntroLoader : MonoBehaviour
 
         gameName = Path.GetFileNameWithoutExtension(gameName);
         AnimationName.text = gameName;
+    }
 
-        GameIntoGroup.SetActive(true);
-        yield return new WaitForSeconds(universalTransitionTime);
-
-        yield return new WaitForSeconds(2f); //Wait 2 seconds
+    private async Task<SongData> GetSongDataAsync()
+    {
 
         if (PersistantAnimationData.Instance != null)
         {
             string songAddress = PersistantAnimationData.Instance.AnimationRecord.AnimationData.Song;
 
-            Addressables.LoadAssetAsync<SongData>(songAddress).Completed += handle =>
+            var handle = Addressables.LoadAssetAsync<SongData>(songAddress);
+            SongData songData = await handle.Task; if (songData != null)
             {
-                if (handle.Status == AsyncOperationStatus.Succeeded && handle.Result != null)
-                {
-                    SongData songData = handle.Result;
-                    SongName.text = songData.songName;
-
-                    song = handle.Result; //For AudioManager
-                }
-            };
+                SongName.text = songData.songName;
+                return songData;
+            }
+            else
+            {
+                SongName.text = "Failed to load song";
+                return null;
+            }
         }
         else
         {
             SongName.text = "Temp Song Name";
+            return null;
+        }
+    }
+
+    private IEnumerator PlayIntro()
+    {
+        yield return new WaitForSeconds(WaitTime / 2);//Wait for loader to fade
+
+        GetAnimationName();
+        if (PersistantAnimationData.Instance == null || PersistantAnimationData.Instance.AnimationRecord.AnimationData.EnableHud == "True")
+        {
+            GameIntoGroup.SetActive(true);
+        }
+        yield return new WaitForSeconds(WaitTime);//Play the game intro group if possible
+
+        yield return new WaitForSeconds(WaitTime * 2);
+
+        if (PersistantAnimationData.Instance == null || PersistantAnimationData.Instance.AnimationRecord.AnimationData.EnableHud == "True")
+        {
+            GameIntoGroupAnimator.SetTrigger("Out");
+            MusicDataGroup.SetActive(true);
+        }
+        yield return new WaitForSeconds(WaitTime);
+        if (PersistantAnimationData.Instance == null || PersistantAnimationData.Instance.AnimationRecord.AnimationData.EnableHud == "True")
+        {
+            GameIntoGroup.SetActive(false);
         }
 
-        GameIntoGroupAnimator.SetTrigger("Out");
-        MusicDataGroup.SetActive(true);
-        yield return new WaitForSeconds(universalTransitionTime);
+        yield return new WaitForSeconds(WaitTime * 2);
 
-        GameIntoGroup.SetActive(false);
-        yield return new WaitForSeconds(2f); //Wait 2 seconds
-
-        MusicDataGroupAnimator.SetTrigger("Out");
-        yield return new WaitForSeconds(universalTransitionTime);
+        if (PersistantAnimationData.Instance == null || PersistantAnimationData.Instance.AnimationRecord.AnimationData.EnableHud == "True")
+        {
+            MusicDataGroupAnimator.SetTrigger("Out");
+        }
+        yield return new WaitForSeconds(WaitTime);
 
     }
 }
