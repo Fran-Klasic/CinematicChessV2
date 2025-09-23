@@ -1,6 +1,10 @@
-using UnityEngine;
-using System.Collections.Generic;
+using Newtonsoft.Json;
 using System.Collections;
+using System.Collections.Generic;
+using Unity.Cinemachine;
+using UnityEngine;
+using System;
+using Unity.VisualScripting;
 
 public class PieceAnimator : MonoBehaviour
 {
@@ -8,13 +12,75 @@ public class PieceAnimator : MonoBehaviour
     private readonly List<FileManager.ChessMove> history = PersistantAnimationData.Instance.AnimationRecord.GameRecord.History;
 
     [SerializeField] private CameraAnimatorExit cameraAnimatorExit;
+    [SerializeField] private CinemachineCamera cinemachineCamera;
+    [SerializeField] private CinemachineCamera vcamWhite;
+    [SerializeField] private CinemachineCamera vcamBlack;
+
+
     [Header("Animation settings: ")]
-    [SerializeField] private float duration = 2f;
     [SerializeField] private int tileOffset = 1;
     [SerializeField] private int jumpHeight = 3;
 
+
+    [HideInInspector] public float pace;
+    //Short 0.75f
+    //Medium 1.5f
+    //Long 2.5f
+    private List<float> durations = new List<float>();
+    private float tempDuration = 2f;
+    private float durationOffset = 0f;
+
+    public class FloatArrayWrapper
+    {
+        public float[] hits;
+    }
+
+    public void GetDurations(SongData songData)
+    {
+        var wrapper = JsonConvert.DeserializeObject<FloatArrayWrapper>(songData.timestampsJSON.text);
+        float[] values = wrapper.hits;
+        float oldTime = 0f;
+
+        foreach (float value in values)
+        {
+            float localValue = value - oldTime;
+
+            if (localValue >= pace + UnityEngine.Random.Range(0.3f, 2f) - durationOffset)
+            {
+                oldTime = value;
+                durations.Add(localValue);
+            }
+        }
+
+        if (history.Count > durations.Count)
+        {
+            if (durations[0] < 0.3f)
+            {
+                //Too short, return
+                return;
+            }
+            durations.Clear();
+            durationOffset += 0.1f;
+            GetDurations(songData);
+        }
+    }
+
     public void StartMovingPieces()
     {
+        switch (PersistantAnimationData.Instance.AnimationRecord.AnimationData.Pace)
+        {
+            case "Short":
+                pace = 0.75f;
+                break;
+            case "Medium":
+                pace = 1.5f;
+                break;
+            case "Long":
+                pace = 2.5f;
+                break;
+        }
+
+        GetDurations(AnimationController.Instance.songData);
         StartCoroutine(MovePieces());
     }
 
@@ -25,8 +91,18 @@ public class PieceAnimator : MonoBehaviour
         if (PieceDataMemory.Instance == null) yield break;
         if (PersistantAnimationData.Instance == null) yield break;
 
+        int counter = 0;
+        float duration = tempDuration;
+
         foreach (var move in history)
         {
+            if (durations.Count >= history.Count)
+            {
+                duration = durations[counter];
+                counter++;
+                Debug.Log($"{counter} : {duration} seconds");
+            }
+
             //Get logical board position
             Vector2Int startPosition = new Vector2Int(move.From.X, move.From.Y);
             Vector2Int targetPosition = new Vector2Int(move.To.X, move.To.Y);
@@ -50,13 +126,27 @@ public class PieceAnimator : MonoBehaviour
 
             //Get piece to move
             GameObject pieceToMove = null;
+            ChessPieceBase.PieceColor pieceColor = ChessPieceBase.PieceColor.None;
             foreach (var piece in PieceDataMemory.Instance.data)
             {
                 if (piece.Position == startPosition)
                 {
+                    pieceColor = piece.PieceColor;
                     pieceToMove = piece.gameObject;
                     break;
                 }
+            }
+
+            //Set piece to move as tracking target
+            if (pieceColor == ChessPieceBase.PieceColor.White)
+            {
+                vcamWhite.Target.TrackingTarget = pieceToMove.transform;
+                vcamWhite.gameObject.SetActive(true);
+            }
+            else
+            {
+                vcamBlack.Target.TrackingTarget = pieceToMove.transform;
+                vcamWhite.gameObject.SetActive(false);
             }
 
             //Get special move support
@@ -154,42 +244,28 @@ public class PieceAnimator : MonoBehaviour
             //Animate the move
             if (move.SpecialMove != FileManager.SpecialMove.Castle)
             {
-                if(pieceToMove.GetComponent<PieceData>().PieceType == ChessPieceBase.PieceType.Knight)
+                float halfDuration = duration / 2;
+                Vector3 middlePiecePosition3F = (startPosition3F + targetPosition3F) / 2f + Vector3.up * jumpHeight;
+
+                while (elapsed < halfDuration)
                 {
-                    float halfDuration = duration / 2;
-                    Vector3 middlePiecePosition3F = (startPosition3F + targetPosition3F) / 2f+ Vector3.up * jumpHeight;
-
-                    while (elapsed < halfDuration)
-                    {
-                        pieceToMove.transform.position = Vector3.Lerp(startPosition3F, middlePiecePosition3F, elapsed / halfDuration);
-                        elapsed += Time.deltaTime;
-                        yield return null;
-                    }
-                    pieceToMove.transform.position = middlePiecePosition3F;
-
-                    //Reset for second half
-                    elapsed = 0;
-
-                    while (elapsed < halfDuration)
-                    {
-                        pieceToMove.transform.position = Vector3.Lerp(middlePiecePosition3F, targetPosition3F, elapsed / halfDuration);
-                        elapsed += Time.deltaTime;
-                        yield return null;
-                    }
-                    pieceToMove.transform.position = targetPosition3F;
+                    pieceToMove.transform.position = Vector3.Lerp(startPosition3F, middlePiecePosition3F, elapsed / halfDuration);
+                    elapsed += Time.deltaTime;
+                    yield return null;
                 }
-                else
+                pieceToMove.transform.position = middlePiecePosition3F;
+
+                //Reset for second half
+                elapsed = 0;
+
+                while (elapsed < halfDuration)
                 {
-                    //Normal animation
-                    while (elapsed < duration)
-                    {
-                        pieceToMove.transform.position = Vector3.Lerp(startPosition3F, targetPosition3F, elapsed / duration);
-                        elapsed += Time.deltaTime;
-                        yield return null;
-                    }
-                    pieceToMove.transform.position = targetPosition3F;
+                    pieceToMove.transform.position = Vector3.Lerp(middlePiecePosition3F, targetPosition3F, elapsed / halfDuration);
+                    elapsed += Time.deltaTime;
+                    yield return null;
                 }
-                    
+                pieceToMove.transform.position = targetPosition3F;
+
             }
             else
             {
@@ -246,5 +322,8 @@ public class PieceAnimator : MonoBehaviour
             yield return null;
             PieceDataMemory.Instance.UpdatePieceDataMemory();
         }
+
+        yield return new WaitForSeconds(2f);
+
     }
 }

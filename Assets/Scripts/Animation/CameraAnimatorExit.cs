@@ -10,6 +10,7 @@ public class CameraAnimatorExit : MonoBehaviour
         var pieceAnimatorGO = GameObject.Find("PieceAnimator");
         var pieceAnimator = pieceAnimatorGO.GetComponent<PieceAnimator>();
         pieceAnimator.StartMovingPieces();
+        gameObject.SetActive(false);
     }
 
 }

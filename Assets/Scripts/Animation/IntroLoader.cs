@@ -29,6 +29,10 @@ public class IntroLoader : MonoBehaviour
     [SerializeField] private TextMeshProUGUI SongName;
 
     [Space(10)]
+    [Header("Audio: ")]
+    [SerializeField] private AudioSource audioSource;
+
+    [Space(10)]
     [Header("Time: ")]
     [SerializeField] private float WaitTime = 1f;
 
@@ -50,7 +54,10 @@ public class IntroLoader : MonoBehaviour
     {
         song = await GetSongDataAsync();
         if (song != null)
+        {
             Debug.Log("Loaded song: " + song.songName);
+            audioSource.clip = song.audioClipMP3;
+        }
 
         StartCoroutine(PlayIntro());
     }
@@ -80,6 +87,7 @@ public class IntroLoader : MonoBehaviour
             SongData songData = await handle.Task; if (songData != null)
             {
                 SongName.text = songData.songName;
+                AnimationController.Instance.songData = songData;
                 return songData;
             }
             else
@@ -97,6 +105,8 @@ public class IntroLoader : MonoBehaviour
 
     private IEnumerator PlayIntro()
     {
+        audioSource.Play();
+
         yield return new WaitForSeconds(WaitTime / 2);//Wait for loader to fade
 
         GetAnimationName();
