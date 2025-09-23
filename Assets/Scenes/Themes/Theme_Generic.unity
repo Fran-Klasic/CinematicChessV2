@@ -4544,6 +4544,53 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CinemachineCamera: {fileID: 1469367902}
   Pieces: []
+--- !u!1 &2081466602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2081466604}
+  - component: {fileID: 2081466603}
+  m_Layer: 0
+  m_Name: PieceAnimator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2081466603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081466602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2807ad8ff2c5ed8439f87a7e03d2f0c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraAnimatorExit: {fileID: 1469367906}
+  duration: 2
+  tileOffset: 1
+--- !u!4 &2081466604
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2081466602}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2091044256 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1586231372095232226, guid: c4c701e72f5852d479ee5f69b5465830, type: 3}
@@ -4594,6 +4641,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2128435574}
   - component: {fileID: 2128435575}
+  - component: {fileID: 2128435576}
   m_Layer: 0
   m_Name: Pieces
   m_TagString: Untagged
@@ -4633,6 +4681,26 @@ MonoBehaviour:
   data: []
   whitePiecesGroup: {fileID: 1844790599}
   blackPiecesGroup: {fileID: 648547124}
+--- !u!114 &2128435576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2128435573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9096a667452b5024b9e6616c11db1318, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whiteRook: {fileID: 1586231372095232226, guid: c4c701e72f5852d479ee5f69b5465830, type: 3}
+  whiteKnight: {fileID: 6188645566315599087, guid: cccd907c9432633479320ce4ec48f6b5, type: 3}
+  whiteBishop: {fileID: 2067913526094309285, guid: b3aebc6c6e574464fb26492f13524824, type: 3}
+  whiteQueen: {fileID: 1020381573199374888, guid: 2e4a54b8c8b358e47a1097556126e805, type: 3}
+  blackRook: {fileID: 1127641879565044153, guid: 33ed0994261b05c40aedee6a683276d8, type: 3}
+  blackKnight: {fileID: 3439820372582568956, guid: 229b6270df2525341a3d246adbd3c9f0, type: 3}
+  blackBishop: {fileID: 4824035605334883462, guid: fce7cd7f179b59140981e40a60d781fb, type: 3}
+  blackQueen: {fileID: 815685700382409719, guid: f21583bb16860cd47bcd006354075bf4, type: 3}
 --- !u!4 &2133269637 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3714079919251926004, guid: 8c4cead4a1df75f43b01660afc1f66c4, type: 3}
@@ -4870,3 +4938,4 @@ SceneRoots:
   - {fileID: 1297234346}
   - {fileID: 2448220705164138868}
   - {fileID: 2128435574}
+  - {fileID: 2081466604}

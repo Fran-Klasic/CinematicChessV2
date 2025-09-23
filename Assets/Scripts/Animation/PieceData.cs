@@ -13,4 +13,10 @@ public class PieceData : MonoBehaviour
         PieceType = pieceType;
         PieceColor = pieceColor;
     }
+    public void CopyFrom(PieceData piece)
+    {
+        Position = piece.Position;
+        PieceType = piece.PieceType;
+        PieceColor = piece.PieceColor;
+    }
 }

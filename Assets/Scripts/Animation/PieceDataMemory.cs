@@ -5,8 +5,8 @@ public class PieceDataMemory : MonoBehaviour
 {
     [HideInInspector] public List<PieceData> data;
 
-    [SerializeField] private GameObject whitePiecesGroup;
-    [SerializeField] private GameObject blackPiecesGroup;
+    [SerializeField] public GameObject whitePiecesGroup;
+    [SerializeField] public GameObject blackPiecesGroup;
 
     public void UpdatePieceDataMemory()
     {
@@ -29,6 +29,11 @@ public class PieceDataMemory : MonoBehaviour
                 data.Add(piece);
             }
         }
+    }
+
+    private void Start()
+    {
+        UpdatePieceDataMemory();
     }
 
     public static PieceDataMemory Instance;
