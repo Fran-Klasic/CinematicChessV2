@@ -56,7 +56,6 @@ public class IntroLoader : MonoBehaviour
         if (song != null)
         {
             Debug.Log("Loaded song: " + song.songName);
-            audioSource.clip = song.audioClipMP3;
         }
 
         StartCoroutine(PlayIntro());
@@ -105,7 +104,7 @@ public class IntroLoader : MonoBehaviour
 
     private IEnumerator PlayIntro()
     {
-        audioSource.Play();
+        AnimationController.Instance.PlaySong();
 
         yield return new WaitForSeconds(WaitTime / 2);//Wait for loader to fade
 

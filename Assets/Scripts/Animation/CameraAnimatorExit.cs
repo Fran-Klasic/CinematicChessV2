@@ -6,7 +6,6 @@ public class CameraAnimatorExit : MonoBehaviour
 
     public void OnCameraAnimFinished()
     {
-        MainCameraAnimator.enabled = false;
         var pieceAnimatorGO = GameObject.Find("PieceAnimator");
         var pieceAnimator = pieceAnimatorGO.GetComponent<PieceAnimator>();
         pieceAnimator.StartMovingPieces();

@@ -12,14 +12,19 @@ public class PieceAnimator : MonoBehaviour
     private readonly List<FileManager.ChessMove> history = PersistantAnimationData.Instance.AnimationRecord.GameRecord.History;
 
     [SerializeField] private CameraAnimatorExit cameraAnimatorExit;
-    [SerializeField] private CinemachineCamera cinemachineCamera;
+    [SerializeField] private CinemachineCamera vcamMain;
     [SerializeField] private CinemachineCamera vcamWhite;
     [SerializeField] private CinemachineCamera vcamBlack;
+    [SerializeField] private Animator transition;
 
+    [Space(10)]
+    [Header("Audio: ")]
+    [SerializeField] private AudioSource audioSource;
 
+    [Space(10)]
     [Header("Animation settings: ")]
     [SerializeField] private int tileOffset = 1;
-    [SerializeField] private int jumpHeight = 3;
+    [SerializeField] private float jumpHeight = 2.5f;
 
 
     [HideInInspector] public float pace;
@@ -310,6 +315,9 @@ public class PieceAnimator : MonoBehaviour
                 Destroy(capturedPiece);
             }
 
+            //Play SFX
+            audioSource.Play();
+
             //Update memory
             PieceData pieceData = null;
             if (pieceToMove != null)
@@ -323,7 +331,19 @@ public class PieceAnimator : MonoBehaviour
             PieceDataMemory.Instance.UpdatePieceDataMemory();
         }
 
+        AnimationController.Instance.EndSong();
+        yield return new WaitForSeconds(1f);
+
+        vcamMain.gameObject.SetActive(true);
+        vcamMain.gameObject.GetComponent<Animator>().SetTrigger("Out");
         yield return new WaitForSeconds(2f);
 
+        AnimationController.Instance.PlayOutro();
+        yield return new WaitForSeconds(3f);
+
+        transition.SetTrigger("Out");
+        yield return new WaitForSeconds(1f);
+
+        SceneManager.Instance.LoadMainUI();
     }
 }

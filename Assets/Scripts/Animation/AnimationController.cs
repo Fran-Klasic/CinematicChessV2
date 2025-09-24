@@ -1,10 +1,44 @@
 using UnityEngine;
+using System.Collections;
 
 public class AnimationController : MonoBehaviour
 {
     [HideInInspector] public SongData songData;
 
-    [SerializeField] AudioSource audioSource;
+    [SerializeField] public AudioSource audioSource;
+    [SerializeField] public OutroLoader outroLoader;
+
+    public void PlaySong()
+    {
+        audioSource.clip = songData.audioClipMP3;
+        audioSource.Play();
+    }
+
+    public void EndSong()
+    {
+        StartCoroutine(FadeSong());
+    }
+
+    public void PlayOutro()
+    {
+        outroLoader.StartOutro();
+    }
+
+    private IEnumerator FadeSong()
+    {
+        float currentVolume = audioSource.volume;
+        float elapsed = 0f;
+        float duration = 6f;
+
+        while (elapsed < duration)
+        {
+            audioSource.volume = Mathf.Lerp(currentVolume, 0f, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        audioSource.volume = 0f;
+        audioSource.Stop();
+    }
 
     public static AnimationController Instance;
     //AnimationController.Instance.--- -> Singleton
