@@ -40,8 +40,6 @@ public static class AnimationSettingsUI_Core
     public static HashSet<string> validThemes = new HashSet<string>
     {
         "Generic",
-        "Space",
-        "Medieval",
     };
     public static HashSet<string> validPace = new HashSet<string>
     {
@@ -51,9 +49,6 @@ public static class AnimationSettingsUI_Core
     };
     public static HashSet<string> validGenre = new HashSet<string>
     {
-        "Classic",
-        "Country",
-        "Electronic",
         "Futuristic",
         "Epic",
     };
@@ -80,6 +75,10 @@ public static class AnimationSettingsUI_Core
     public static void SaveAllData()
     {
         AnimationData animationData = new AnimationData(theme, pace, musicGenre, orientation, enableHud, player1, player2, song);
+        SceneManager.Instance.SaveAnimationData(animationData);
+    }
+    public static void SaveAllData(AnimationData animationData)
+    {
         SceneManager.Instance.SaveAnimationData(animationData);
     }
 }

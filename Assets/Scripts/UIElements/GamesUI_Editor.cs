@@ -48,7 +48,7 @@ public class GamesUI_Editor : MonoBehaviour
     private FileManager.GameRecord GetGameFile()
     {
         string fileName = string.Empty;
-        var validatedFiles = MainController.Instance.ValidateFiles();
+        var validatedFiles = MainController.Instance.ValidateGameFiles();
 
         #region File Name Getting
         //gameObject is editor button

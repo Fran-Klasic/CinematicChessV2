@@ -22,7 +22,7 @@ public class MainUI_Games : MonoBehaviour
 
         StartCoroutine(StartGamesMenu());
 
-        SetGamesData(MainController.Instance.ValidateFiles());
+        SetGamesData(MainController.Instance.ValidateGameFiles());
 
         //Animator will try to change state into selected
         //Unselect button from the animator

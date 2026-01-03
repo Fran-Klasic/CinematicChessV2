@@ -1,9 +1,10 @@
-﻿using System.IO;
-using System;
+﻿using System;
+using System.Collections;
+using System.IO;
 using TMPro;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
 
 public class SceneManager : MonoBehaviour
 {
@@ -181,6 +182,9 @@ public class SceneManager : MonoBehaviour
                 return Scenes.AnimationCore;
             case theme_Generic:
                 return Scenes.Theme_Generic;
+            default:
+                Debug.LogWarning($"GetScene has no case for {sceneName}");
+                break;
         }
 
         return Scenes.None;
@@ -198,6 +202,9 @@ public class SceneManager : MonoBehaviour
                 return animationCore;
             case Scenes.Theme_Generic:
                 return theme_Generic;
+            default:
+                Debug.LogWarning($"GetSceneString has no case for {scene}");
+                break;
         }
 
         return string.Empty;

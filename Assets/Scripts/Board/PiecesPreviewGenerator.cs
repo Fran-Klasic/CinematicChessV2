@@ -95,8 +95,15 @@ public class PiecesPreviewGenerator : MonoBehaviour
 
     }
 
+    //Initialize piece on board and in memory
     public void InitializePiece(int x, int y, GameObject piecePrefab, RectTransform rectTransform)
     {
+        if (pieceInfo.ContainsKey(new Vector2Int(x, y)))
+        {
+            pieceInfo[new Vector2Int(x, y)].SetActive(false);
+            Destroy(pieceInfo[new Vector2Int(x, y)]);
+            pieceInfo.Remove(new Vector2Int(x, y));
+        }
         GameObject piece = Instantiate(piecePrefab, rectTransform);
 
         RectTransform pieceRect = piece.GetComponent<RectTransform>();

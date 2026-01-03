@@ -65,13 +65,13 @@ public class ReplayManager : MonoBehaviour
         if (PiecesPreviewGenerator.Instance.pieceInfo.ContainsKey(to))
         {
             PiecesPreviewGenerator.Instance.pieceInfo[to].SetActive(false);
+            Destroy(PiecesPreviewGenerator.Instance.pieceInfo[to]);
             PiecesPreviewGenerator.Instance.pieceInfo.Remove(to);
         }
         PiecesPreviewGenerator.Instance.pieceInfo.Add(to, piece);
 
         isAnimating = false;
     }
-
     private IEnumerator MovePieceEnPassant(Vector2Int from, Vector2Int to, ChessPieceBase.PieceColor pieceColor, GameObject piece)
     {
         if (isAnimating)
@@ -106,12 +106,12 @@ public class ReplayManager : MonoBehaviour
         Vector2Int enemyPosition = new Vector2Int(to.x, to.y - 1 * direction);
         PiecesPreviewGenerator.Instance.pieceInfo.Remove(from);
         PiecesPreviewGenerator.Instance.pieceInfo[enemyPosition].SetActive(false);
+        Destroy(PiecesPreviewGenerator.Instance.pieceInfo[enemyPosition]);
         PiecesPreviewGenerator.Instance.pieceInfo.Remove(enemyPosition);
         PiecesPreviewGenerator.Instance.pieceInfo.Add(to, piece);
 
         isAnimating = false;
     }
-
     private IEnumerator MovePieceCastling(Vector2Int from, Vector2Int to, ChessPieceBase.PieceColor pieceColor, GameObject piece)
     {
         if (isAnimating)
@@ -181,7 +181,6 @@ public class ReplayManager : MonoBehaviour
 
         isAnimating = false;
     }
-
     private IEnumerator MovePiecePromotion(Vector2Int from, Vector2Int to, ChessPieceBase.PieceColor pieceColor, ChessPieceBase.PieceType promotedInto, GameObject piece)
     {
         if (isAnimating)
@@ -208,6 +207,14 @@ public class ReplayManager : MonoBehaviour
             yield return null;
         }
 
+        //Update Dictionary
+        if (PiecesPreviewGenerator.Instance.pieceInfo.ContainsKey(to))
+        {
+            PiecesPreviewGenerator.Instance.pieceInfo[to].SetActive(false);
+            Destroy(PiecesPreviewGenerator.Instance.pieceInfo[to]);
+            PiecesPreviewGenerator.Instance.pieceInfo.Remove(to);
+        }
+
         switch (promotedInto)
         {
             case ChessPieceBase.PieceType.Rook:
@@ -227,6 +234,9 @@ public class ReplayManager : MonoBehaviour
 
         pieceRect.localPosition = toV2Float;
         //Update Dictionary
+        piece.SetActive(false);
+        Destroy(piece);
+
         PiecesPreviewGenerator.Instance.pieceInfo.Remove(from);
 
         isAnimating = false;
