@@ -1946,7 +1946,7 @@ GameObject:
   - component: {fileID: 4854326911960625374}
   - component: {fileID: 3001003465880108817}
   m_Layer: 5
-  m_Name: Editor
+  m_Name: Play
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

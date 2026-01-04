@@ -29,6 +29,7 @@ public class MainUI_Animations : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
     }
 
+  
     private void SetAnimationsData((List<string>, List<(FileManager.AnimationRecord, string)>) fileData)
     {
         var allGames = fileData.Item1;

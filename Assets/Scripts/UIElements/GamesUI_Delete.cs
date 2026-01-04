@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.EventSystems;
 using System.IO;
-using Unity.VisualScripting;
 
 public class GameUI_Delete : MonoBehaviour
 {
