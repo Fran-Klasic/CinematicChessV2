@@ -2,17 +2,17 @@
 using System.Collections;
 using System.IO;
 using TMPro;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class SceneManager : MonoBehaviour
 {
     //All scenes in a const string
-    public enum Scenes { None, MainUI, Chess2dVSFriend, AnimationCore, Theme_Generic }
+    public enum Scenes { None, MainUI, Chess2dVSFriend, Chess2dVSBot, AnimationCore, Theme_Generic }
 
     public const string mainUI = "MainUI";
     public const string chess2dVSFriend = "Chess2dVSFriend";
+    public const string chess2dVSBot = "Chess2dVSBot";
     public const string animationCore = "AnimationCore";
     public const string theme_Generic = "Theme_Generic";
 
@@ -36,6 +36,10 @@ public class SceneManager : MonoBehaviour
     public void LoadChess2dVSFriend()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene(chess2dVSFriend, LoadSceneMode.Single);
+    }
+    public void LoadChess2dVSBot()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(chess2dVSBot, LoadSceneMode.Single);
     }
 
     public void LoadAnimationCore()
@@ -176,6 +180,8 @@ public class SceneManager : MonoBehaviour
         {
             case chess2dVSFriend:
                 return Scenes.Chess2dVSFriend;
+            case chess2dVSBot:
+                return Scenes.Chess2dVSBot;
             case mainUI:
                 return Scenes.MainUI;
             case animationCore:
@@ -196,6 +202,8 @@ public class SceneManager : MonoBehaviour
         {
             case Scenes.Chess2dVSFriend:
                 return chess2dVSFriend;
+            case Scenes.Chess2dVSBot:
+                return chess2dVSBot;
             case Scenes.MainUI:
                 return mainUI;
             case Scenes.AnimationCore:

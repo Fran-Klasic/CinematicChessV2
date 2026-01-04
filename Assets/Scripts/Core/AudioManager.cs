@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public class AudioManager : MonoBehaviour
 {
-
+    public static float Volume { get; set; } = 0.5f;
 
     public static async Task<SongData> LoadRandomSongAsync(string genreLabel)
     {
@@ -36,4 +36,19 @@ public class AudioManager : MonoBehaviour
             return null;
         }
     }
+
+    public static AudioManager Instance;
+    //AudioManager.Instance.--- -> Singleton
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 }
+

@@ -40,6 +40,11 @@ public class AnimationController : MonoBehaviour
         audioSource.Stop();
     }
 
+    private void Update()
+    {
+        audioSource.volume = AudioManager.Volume;
+    }
+
     public static AnimationController Instance;
     //AnimationController.Instance.--- -> Singleton
     private void Awake()
